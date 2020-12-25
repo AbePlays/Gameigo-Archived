@@ -10,6 +10,12 @@ export default function GameCard({ game }: Props): ReactElement {
   let genres: string[] = [];
   game.genres.forEach((genre) => genres.push(genre.name));
 
+  const formatDate = (releasedDate: string): string => {
+    const date = new Date(releasedDate).toDateString();
+    let arr = date.split(" ");
+    return arr[1] + " " + arr[2] + ", " + arr[3];
+  };
+
   return (
     <div className="shadow-lg rounded-lg cursor-pointer">
       <div className="h-64">
@@ -20,9 +26,13 @@ export default function GameCard({ game }: Props): ReactElement {
         />
       </div>
       <div className="p-4">
-        <h1 className="text-xl font-bold">{game.name}</h1>
-        <p className="font-light text-sm my-2">Release Date: {game.released}</p>
-        <p className="font-light text-sm my-2">Genres: {genres.join(", ")}</p>
+        <h1 className="text-2xl font-bold">{game.name}</h1>
+        <p className="font-light text-sm my-2 tracking-wider">
+          Release Date: {formatDate(game.released)}
+        </p>
+        <p className="font-light text-sm my-2 tracking-wider">
+          Genres: {genres.join(", ")}
+        </p>
       </div>
     </div>
   );

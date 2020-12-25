@@ -58,8 +58,8 @@ export default class Trending extends Component<Props, State> {
 
   render() {
     return (
-      <div className="mx-32">
-        <h1 className="font-bold text-6xl mt-6">New and trending</h1>
+      <div className="mx-32 my-6">
+        <h1 className="font-bold text-6xl">New and trending</h1>
         <p className="font-light my-4">
           Based on player counts and release date
         </p>
