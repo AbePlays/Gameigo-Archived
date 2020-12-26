@@ -1,15 +1,21 @@
 import React, { ReactElement, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import parse from "html-react-parser";
 
 interface ParamTypes {
   id: string;
 }
 
+interface LocationTypes {
+  state: {
+    id: number;
+    image: string;
+  }[];
+}
+
 interface Game {
   name: string;
   description: string;
-  description_raw: string;
   released: string;
   background_image: string;
   website: string;
@@ -25,10 +31,20 @@ interface Game {
     id: number;
     name: string;
   }[];
+  stores: {
+    id: number;
+    url: string;
+    store: {
+      id: number;
+      name: string;
+    };
+  }[];
 }
 
 export default function GameDetails(): ReactElement {
   const { id } = useParams<ParamTypes>();
+  const { state } = useLocation<LocationTypes>();
+  console.log(state);
   const [details, setDetails] = useState<Game>();
 
   useEffect(() => {
@@ -39,7 +55,6 @@ export default function GameDetails(): ReactElement {
       setDetails({
         name: data.name,
         description: data.description,
-        description_raw: data.description_raw,
         released: data.released,
         background_image: data.background_image,
         website: data.website,
@@ -47,6 +62,7 @@ export default function GameDetails(): ReactElement {
         playtime: data.playtime,
         parent_platforms: data.parent_platforms,
         genres: data.genres,
+        stores: data.stores,
       });
     };
 
@@ -59,23 +75,18 @@ export default function GameDetails(): ReactElement {
     return arr[1] + " " + arr[2] + ", " + arr[3];
   };
 
-  const formatDescription = (description: string): string => {
-    const newString = description.replaceAll("###", "\n");
-    return newString;
-  };
-
   return (
     <>
       {details && (
         <div
-          className="w-screen min-h-screen"
+          className="w-screen py-6"
           style={{
             backgroundImage: `url(${details.background_image})`,
             backgroundPosition: "center",
             backgroundSize: "cover",
           }}
         >
-          <div className="w-2/3 mx-auto py-6 text-white">
+          <div className="w-2/3 mx-auto text-white">
             <h1 className="font-bold text-6xl">{details.name}</h1>
             <div className="flex mt-4">
               <p className="bg-white px-2 rounded-md text-black">
@@ -90,7 +101,9 @@ export default function GameDetails(): ReactElement {
                 <p className="font-bold text-xl">Platforms</p>
                 <div className="divide-x-2">
                   {details.parent_platforms.map((platform) => (
-                    <span className="px-2">{platform.platform.name}</span>
+                    <span key={platform.platform.id} className="px-2">
+                      {platform.platform.name}
+                    </span>
                   ))}
                 </div>
               </div>
@@ -104,7 +117,11 @@ export default function GameDetails(): ReactElement {
                 <p className="font-bold text-xl">Genres</p>
                 <div className="divide-x-2">
                   {details.genres.map((genre) => {
-                    return <span className="px-2">{genre.name}</span>;
+                    return (
+                      <span key={genre.id} className="px-2">
+                        {genre.name}
+                      </span>
+                    );
                   })}
                 </div>
               </div>
@@ -114,6 +131,20 @@ export default function GameDetails(): ReactElement {
             <div className="my-6">
               <p className="font-bold text-xl">Website</p>
               <a href={details.website}>{details.website}</a>
+            </div>
+            <div>
+              <h1 className="font-bold text-xl">Where to buy</h1>
+              <div className="flex gap-2 mt-3">
+                {details.stores.map((item) => (
+                  <a
+                    href={item.url}
+                    className="py-2 px-6 bg-gray-900 rounded-lg cursor-pointer"
+                    key={item.id}
+                  >
+                    {item.store.name}
+                  </a>
+                ))}
+              </div>
             </div>
           </div>
         </div>

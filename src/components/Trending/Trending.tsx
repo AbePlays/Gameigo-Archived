@@ -24,6 +24,10 @@ export interface Game {
     id: number;
     name: string;
   }[];
+  short_screenshots: {
+    id: number;
+    image: string;
+  }[];
 }
 
 export default class Trending extends Component<Props, State> {
@@ -48,6 +52,7 @@ export default class Trending extends Component<Props, State> {
         id: obj.id,
         parent_platforms: obj.parent_platforms,
         genres: obj.genres,
+        short_screenshots: obj.short_screenshots,
       };
       results.push(game);
     }
