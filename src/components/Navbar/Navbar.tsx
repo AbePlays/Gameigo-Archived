@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { NavLink, withRouter, RouteComponentProps } from "react-router-dom";
 
 interface Props {}
 
@@ -6,20 +7,30 @@ interface State {
   query: string;
 }
 
-export default class Navbar extends Component<Props, State> {
+class Navbar extends Component<Props & RouteComponentProps, State> {
   state = {
     query: "",
   };
 
   handleSubmit = () => {
     console.log("Handling Submit");
+    this.props.history.push({
+      pathname: "/search",
+      state: {
+        query: this.state.query,
+      },
+    });
     this.setState({ query: "" });
   };
 
   render() {
+    console.log(this.props);
+
     return (
       <div className="flex justify-between items-center py-4 px-16 shadow">
-        <h1>Logo</h1>
+        <NavLink to="/">
+          <h1>Logo</h1>
+        </NavLink>
         <div className="relative w-1/3 ">
           <svg
             className="w-4 absolute top-3 left-3"
@@ -53,8 +64,12 @@ export default class Navbar extends Component<Props, State> {
             }}
           />
         </div>
-        <p className="uppercase">Log in</p>
+        <NavLink to="/auth">
+          <p className="uppercase">Log in</p>
+        </NavLink>
       </div>
     );
   }
 }
+
+export default withRouter(Navbar);

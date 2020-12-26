@@ -26,7 +26,7 @@ export default function GameCard({ game }: Props): ReactElement {
         },
       }}
     >
-      <div className="shadow-lg rounded-lg cursor-pointer">
+      <div className="shadow-lg rounded-lg cursor-pointer h-full">
         <div className="h-64">
           <img
             className="w-full h-full rounded-t-lg object-cover "
