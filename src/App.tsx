@@ -1,14 +1,19 @@
 import React from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { createStore } from "redux";
+import { Provider } from "react-redux";
 
 import GameDetails from "./components/GameDetails";
 import Navbar from "./components/Navbar";
 import Search from "./components/Search";
 import Trending from "./components/Trending";
+import RootReducer from "./store/reducers";
+
+const store = createStore(RootReducer);
 
 function App() {
   return (
-    <div>
+    <Provider store={store}>
       <BrowserRouter>
         <Navbar />
         <Switch>
@@ -17,7 +22,7 @@ function App() {
           <Route path="/:id" component={GameDetails} />
         </Switch>
       </BrowserRouter>
-    </div>
+    </Provider>
   );
 }
 
