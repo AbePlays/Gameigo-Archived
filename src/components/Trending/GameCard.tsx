@@ -21,7 +21,9 @@ export default function GameCard({ game }: Props): ReactElement {
     <Link
       to={{
         pathname: `/${game.id}`,
-        state: game.short_screenshots,
+        state: {
+          images: game.short_screenshots,
+        },
       }}
     >
       <div className="shadow-lg rounded-lg cursor-pointer">

@@ -1,16 +1,20 @@
 import React, { ReactElement, useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import parse from "html-react-parser";
+import AliceCarousel from "react-alice-carousel";
+import "react-alice-carousel/lib/alice-carousel.css";
 
 interface ParamTypes {
   id: string;
 }
 
-interface LocationTypes {
-  state: {
-    id: number;
-    image: string;
-  }[];
+interface LocationType {
+  images: ImageType[];
+}
+
+interface ImageType {
+  id: number;
+  image: string;
 }
 
 interface Game {
@@ -43,9 +47,13 @@ interface Game {
 
 export default function GameDetails(): ReactElement {
   const { id } = useParams<ParamTypes>();
-  const { state } = useLocation<LocationTypes>();
-  console.log(state);
+  const { state } = useLocation<LocationType>();
   const [details, setDetails] = useState<Game>();
+
+  const images: any = [];
+  state.images.forEach((item: ImageType) => {
+    images.push(<img src={item.image} alt="game" />);
+  });
 
   useEffect(() => {
     const getData = async () => {
@@ -81,14 +89,16 @@ export default function GameDetails(): ReactElement {
         <div
           className="w-screen py-6"
           style={{
-            backgroundImage: `url(${details.background_image})`,
-            backgroundPosition: "center",
-            backgroundSize: "cover",
+            background: `url(${details.background_image})`,
+            backgroundPosition: "top",
+            backgroundSize: "contain",
+            backgroundRepeat: "no-repeat",
+            backgroundColor: "black",
           }}
         >
           <div className="w-2/3 mx-auto text-white">
-            <h1 className="font-bold text-6xl">{details.name}</h1>
-            <div className="flex mt-4">
+            <h1 className="font-bold text-6xl my-6">{details.name}</h1>
+            <div className="flex my-6">
               <p className="bg-white px-2 rounded-md text-black">
                 {formatDate(details.released)}
               </p>
@@ -96,7 +106,7 @@ export default function GameDetails(): ReactElement {
                 Average Playtime: {details.playtime} hours
               </p>
             </div>
-            <div className="grid grid-cols-3 gap-2 my-10 divide-x-2">
+            <div className="grid grid-cols-3 gap-2 my-6 divide-x-2">
               <div className="flex justify-center items-center flex-col">
                 <p className="font-bold text-xl">Platforms</p>
                 <div className="divide-x-2">
@@ -126,15 +136,23 @@ export default function GameDetails(): ReactElement {
                 </div>
               </div>
             </div>
-            <h1 className="font-bold text-2xl mb-2">About</h1>
+            <div className="w-3/5 mx-auto my-6">
+              <AliceCarousel
+                autoPlayInterval={5000}
+                disableButtonsControls={true}
+                infinite
+                items={images}
+              />
+            </div>
+            <h1 className="font-bold text-2xl my-3">About</h1>
             {parse(details.description)}
             <div className="my-6">
               <p className="font-bold text-xl">Website</p>
               <a href={details.website}>{details.website}</a>
             </div>
-            <div>
+            <div className="my-6">
               <h1 className="font-bold text-xl">Where to buy</h1>
-              <div className="flex gap-2 mt-3">
+              <div className="flex gap-2 mt-2">
                 {details.stores.map((item) => (
                   <a
                     href={item.url}
