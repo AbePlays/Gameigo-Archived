@@ -166,7 +166,11 @@ export default function GameDetails(): ReactElement {
                   target="_blank"
                   rel="noreferrer"
                 >
-                  <img className="w-64" src={item.image} alt="game" />
+                  <img
+                    className="w-64 h-40 object-cover"
+                    src={item.image}
+                    alt="game"
+                  />
                 </a>
               ))}
             </div>
