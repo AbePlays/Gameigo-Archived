@@ -82,7 +82,7 @@ export default function GameDetails(): ReactElement {
   };
 
   return (
-    <>
+    <div className="dark:bg-black min-h-screen bg-white">
       {details && (
         <div className="w-screen relative bg-black">
           <div className="absolute top-0 left-0 right-0 z-100">
@@ -141,7 +141,9 @@ export default function GameDetails(): ReactElement {
             <div className="text-justify">{parse(details.description)}</div>
             <div className="my-6">
               <p className="font-bold text-xl">Website</p>
-              <a href={details.website}>{details.website}</a>
+              <a href={details.website} target="_blank" rel="noreferrer">
+                {details.website}
+              </a>
             </div>
             <div className="my-6">
               <h1 className="font-bold text-xl">Where to buy</h1>
@@ -149,8 +151,10 @@ export default function GameDetails(): ReactElement {
                 {details.stores.map((item) => (
                   <a
                     href={item.url}
-                    className="py-2 px-6 mr-2 mt-2 bg-gray-900 rounded-lg cursor-pointer"
+                    className="py-2 px-6 mr-2 mt-2 bg-gray-900 rounded-lg cursor-pointer hover:bg-gray-800 transition duration-300"
                     key={item.id}
+                    target="_blank"
+                    rel="noreferrer"
                   >
                     {item.store.name}
                   </a>
@@ -177,6 +181,6 @@ export default function GameDetails(): ReactElement {
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 }

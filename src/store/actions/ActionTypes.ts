@@ -1,2 +1,1 @@
-export const SEARCHING = "SEARCHING";
-export const LOAD_RESULTS = "LOAD_RESULTS";
+export const TOGGLE_DARK_MODE = "TOGGLE_DARK_MODE";

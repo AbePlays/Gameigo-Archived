@@ -26,7 +26,7 @@ export default function GameCard({ game }: Props): ReactElement {
         },
       }}
     >
-      <div className="shadow-lg rounded-xl cursor-pointer h-full overflow-hidden">
+      <div className="shadow-lg rounded-xl cursor-pointer h-full overflow-hidden dark:bg-darkSecondary">
         <div className="h-64">
           <img
             className="w-full h-full object-cover"
@@ -39,7 +39,7 @@ export default function GameCard({ game }: Props): ReactElement {
           <div className="flex flex-wrap my-2">
             {game.parent_platforms.map((item) => {
               return (
-                <span className="px-2 py-1 m-1 ml-0 bg-black rounded-lg text-sm text-white">
+                <span className="px-2 py-1 my-1 mr-2 ml-0 bg-black dark:bg-white dark:text-black rounded-lg text-sm text-white">
                   {item.platform.name}
                 </span>
               );

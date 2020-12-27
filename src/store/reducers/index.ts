@@ -1,8 +1,9 @@
 import { combineReducers } from "redux";
-import SearchReducer from "./SearchReducer";
+
+import DarkModeReducer from "./DarkModeReducer";
 
 const RootReducer = combineReducers({
-  search: SearchReducer,
+  darkMode: DarkModeReducer,
 });
 
 export default RootReducer;

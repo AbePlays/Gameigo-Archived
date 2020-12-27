@@ -1,6 +1,3 @@
-export interface SearchState {
-  loading: boolean;
-  searchResults: [];
+export interface DarkModeState {
+  isDark: boolean;
 }
-
-export interface SearchActionType {}
