@@ -56,8 +56,8 @@ export default function GameDetails(): ReactElement {
   });
 
   useEffect(() => {
+    console.log("[GameDetails] UEF");
     const getData = async () => {
-      console.log("[GameDetails] UE");
       const res = await fetch(`https://api.rawg.io/api/games/${id}`);
       const data = await res.json();
       setDetails({
@@ -86,30 +86,35 @@ export default function GameDetails(): ReactElement {
   return (
     <>
       {details && (
-        <div
-          className="w-screen py-6"
-          style={{
-            background: `url(${details.background_image})`,
-            backgroundPosition: "top",
-            backgroundSize: "contain",
-            backgroundRepeat: "no-repeat",
-            backgroundColor: "black",
-          }}
-        >
-          <div className="w-2/3 mx-auto text-white">
+        <div className="w-screen relative bg-black">
+          <div className="absolute top-0 left-0 z-100">
+            <img
+              className="w-full h-full"
+              src={details.background_image}
+              alt="lol"
+            />
+          </div>
+          <div
+            className="absolute top-0 left-0 z-11  w-full h-full"
+            style={{
+              opacity: 0.7,
+              backgroundColor: "black",
+            }}
+          />
+          <div className="max-w-screen-lg mx-auto py-6 px-4 z-10 relative text-white">
             <h1 className="font-bold text-6xl my-6">{details.name}</h1>
-            <div className="flex my-6">
-              <p className="bg-white px-2 rounded-md text-black">
+            <div className="flex flex-wrap my-6 items-center">
+              <p className="bg-white px-2 mr-4 rounded-md text-black">
                 {formatDate(details.released)}
               </p>
-              <p className="ml-6 uppercase tracking-widest">
+              <p className="uppercase tracking-widest">
                 Average Playtime: {details.playtime} hours
               </p>
             </div>
-            <div className="grid grid-cols-3 gap-2 my-6 divide-x-2">
-              <div className="flex justify-center items-center flex-col">
-                <p className="font-bold text-xl">Platforms</p>
-                <div className="divide-x-2">
+            <div className="grid sm:grid-cols-3 gap-4 my-6 sm:divide-x-2 text-center">
+              <div className="">
+                <h1 className="font-bold text-xl">Platforms</h1>
+                <div className="divide-x-2 mt-2">
                   {details.parent_platforms.map((platform) => (
                     <span key={platform.platform.id} className="px-2">
                       {platform.platform.name}
@@ -117,32 +122,22 @@ export default function GameDetails(): ReactElement {
                   ))}
                 </div>
               </div>
-              <div className="flex justify-center items-center flex-col">
-                <p className="font-bold text-xl">Metacritic Score</p>
-                <span className="font-normal text-base">
+              <div className="">
+                <h1 className="font-bold text-xl">Metacritic Score</h1>
+                <p className="font-normal text-base mt-2">
                   {details.metacritic}
-                </span>
+                </p>
               </div>
-              <div className="flex justify-center items-center flex-col">
-                <p className="font-bold text-xl">Genres</p>
-                <div className="divide-x-2">
-                  {details.genres.map((genre) => {
-                    return (
-                      <span key={genre.id} className="px-2">
-                        {genre.name}
-                      </span>
-                    );
-                  })}
+              <div className="">
+                <h1 className="font-bold text-xl">Genres</h1>
+                <div className="divide-x-2 mt-2">
+                  {details.genres.map((genre) => (
+                    <span key={genre.id} className="px-2">
+                      {genre.name}
+                    </span>
+                  ))}
                 </div>
               </div>
-            </div>
-            <div className="w-3/5 mx-auto my-6">
-              <AliceCarousel
-                autoPlayInterval={5000}
-                disableButtonsControls={true}
-                infinite
-                items={images}
-              />
             </div>
             <h1 className="font-bold text-2xl my-3">About</h1>
             {parse(details.description)}
@@ -152,17 +147,26 @@ export default function GameDetails(): ReactElement {
             </div>
             <div className="my-6">
               <h1 className="font-bold text-xl">Where to buy</h1>
-              <div className="flex gap-2 mt-2">
+              <div className="flex flex-wrap">
                 {details.stores.map((item) => (
                   <a
                     href={item.url}
-                    className="py-2 px-6 bg-gray-900 rounded-lg cursor-pointer"
+                    className="py-2 px-6 mr-2 mt-2 bg-gray-900 rounded-lg cursor-pointer"
                     key={item.id}
                   >
                     {item.store.name}
                   </a>
                 ))}
               </div>
+            </div>
+            <h1 className="font-bold text-xl">Screenshots</h1>
+            <div className="w-full sm:w-2/3 mx-auto mt-3">
+              <AliceCarousel
+                autoPlayInterval={5000}
+                disableButtonsControls={true}
+                infinite
+                items={images}
+              />
             </div>
           </div>
         </div>
