@@ -39,7 +39,10 @@ export default function GameCard({ game }: Props): ReactElement {
           <div className="flex flex-wrap my-2">
             {game.parent_platforms.map((item) => {
               return (
-                <span className="px-2 py-1 my-1 mr-2 ml-0 bg-black dark:bg-white dark:text-black rounded-lg text-sm text-white">
+                <span
+                  key={item.platform.id}
+                  className="px-2 py-1 my-1 mr-2 ml-0 bg-black dark:bg-white dark:text-black rounded-lg text-sm text-white"
+                >
                   {item.platform.name}
                 </span>
               );

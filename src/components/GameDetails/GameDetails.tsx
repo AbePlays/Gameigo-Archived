@@ -2,6 +2,7 @@ import React, { ReactElement } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import parse from "html-react-parser";
 import { useQuery } from "react-query";
+import Spinner from "../Spinner";
 
 interface ParamTypes {
   id: string;
@@ -67,14 +68,6 @@ export default function GameDetails(): ReactElement {
 
   const { isLoading, error, data } = useQuery(id, getData);
 
-  if (isLoading) {
-    return <p>Loading...</p>;
-  }
-
-  if (error) {
-    return <p>Error fetching data</p>;
-  }
-
   if (data) {
     details = {
       name: data.name,
@@ -92,6 +85,10 @@ export default function GameDetails(): ReactElement {
 
   return (
     <div className="dark:bg-black min-h-screen bg-white">
+      {isLoading && <Spinner />}
+      {error && (
+        <p className="text-white text-center py-8">Error while fetching data</p>
+      )}
       {details && (
         <div className="w-screen relative bg-black">
           <div className="absolute top-0 left-0 right-0 z-100">

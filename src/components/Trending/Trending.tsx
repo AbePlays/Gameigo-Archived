@@ -1,5 +1,6 @@
 import React, { ReactElement } from "react";
 import { useQuery } from "react-query";
+import Spinner from "../Spinner";
 
 import GameCard from "./GameCard";
 
@@ -36,28 +37,22 @@ export default function Trending(): ReactElement {
 
   const { isLoading, error, data } = useQuery("games", getData);
 
-  if (isLoading) {
-    return <p>Loading...</p>;
-  }
-
-  if (error) {
-    return <p>Failed to load data</p>;
-  }
-
   const results: Game[] = [];
-  for (const obj of data.results) {
-    const game: Game = {
-      name: obj.name,
-      playtime: obj.playtime,
-      released: obj.released,
-      background_image: obj.background_image,
-      rating: obj.rating,
-      id: obj.id,
-      parent_platforms: obj.parent_platforms,
-      genres: obj.genres,
-      short_screenshots: obj.short_screenshots,
-    };
-    results.push(game);
+  if (data) {
+    for (const obj of data.results) {
+      const game: Game = {
+        name: obj.name,
+        playtime: obj.playtime,
+        released: obj.released,
+        background_image: obj.background_image,
+        rating: obj.rating,
+        id: obj.id,
+        parent_platforms: obj.parent_platforms,
+        genres: obj.genres,
+        short_screenshots: obj.short_screenshots,
+      };
+      results.push(game);
+    }
   }
 
   return (
@@ -67,11 +62,19 @@ export default function Trending(): ReactElement {
         <p className="font-normal my-3">
           Based on player counts and release date
         </p>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {results.map((game: Game) => (
-            <GameCard key={game.id} game={game} />
-          ))}
-        </div>
+        {isLoading && <Spinner />}
+        {error && (
+          <p className="text-white text-center py-8">
+            Error while fetching data
+          </p>
+        )}
+        {data && (
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {results.map((game: Game) => (
+              <GameCard key={game.id} game={game} />
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
