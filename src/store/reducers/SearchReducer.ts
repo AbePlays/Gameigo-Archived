@@ -11,7 +11,7 @@ const SearchReducer = (state = initialState, action: Searching) => {
   switch (action.type) {
     case "SEARCHING":
       return {
-        loading: true,
+        loading: !state.loading,
         searchResults: [],
       };
     case "LOAD_RESULTS":
