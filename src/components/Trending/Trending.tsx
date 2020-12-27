@@ -63,12 +63,12 @@ export default class Trending extends Component<Props, State> {
 
   render() {
     return (
-      <div className="mx-32 my-6">
+      <div className="max-w-screen-lg mx-auto py-6 px-4">
         <h1 className="font-bold text-6xl">New and trending</h1>
-        <p className="font-light my-4">
+        <p className="font-normal my-3">
           Based on player counts and release date
         </p>
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {this.state.games.map((game: Game) => (
             <GameCard key={game.id} game={game} />
           ))}

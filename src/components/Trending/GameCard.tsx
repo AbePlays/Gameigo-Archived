@@ -26,22 +26,37 @@ export default function GameCard({ game }: Props): ReactElement {
         },
       }}
     >
-      <div className="shadow-lg rounded-lg cursor-pointer h-full">
+      <div className="shadow-lg rounded-xl cursor-pointer h-full">
         <div className="h-64">
           <img
-            className="w-full h-full rounded-t-lg object-cover "
+            className="w-full h-full rounded-t-xl object-cover "
             src={game.background_image}
             alt="game-background"
           />
         </div>
         <div className="p-4">
           <h1 className="text-2xl font-bold">{game.name}</h1>
-          <p className="font-light text-sm my-2 tracking-wider">
-            Release Date: {formatDate(game.released)}
-          </p>
-          <p className="font-light text-sm my-2 tracking-wider">
-            Genres: {genres.join(", ")}
-          </p>
+          <div className="flex flex-wrap my-2">
+            {game.parent_platforms.map((item) => {
+              return (
+                <span className="px-2 py-1 m-1 ml-0 bg-black rounded-lg text-sm text-white">
+                  {item.platform.name}
+                </span>
+              );
+            })}
+          </div>
+          <div className="divide-y">
+            <p className="font-semibold text-sm py-2 tracking-wider">
+              Release Date:
+              <span className="font-light ml-2">
+                {formatDate(game.released)}
+              </span>
+            </p>
+            <p className="font-semibold text-sm py-2 tracking-wider">
+              Genres:
+              <span className="font-light ml-2">{genres.join(", ")}</span>
+            </p>
+          </div>
         </div>
       </div>
     </Link>
