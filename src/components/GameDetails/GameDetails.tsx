@@ -1,8 +1,6 @@
 import React, { ReactElement, useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import parse from "html-react-parser";
-import AliceCarousel from "react-alice-carousel";
-import "react-alice-carousel/lib/alice-carousel.css";
 
 interface ParamTypes {
   id: string;
@@ -87,7 +85,7 @@ export default function GameDetails(): ReactElement {
     <>
       {details && (
         <div className="w-screen relative bg-black">
-          <div className="absolute top-0 left-0 z-100">
+          <div className="absolute top-0 left-0 right-0 z-100">
             <img
               className="w-full h-full"
               src={details.background_image}
@@ -112,7 +110,7 @@ export default function GameDetails(): ReactElement {
               </p>
             </div>
             <div className="grid sm:grid-cols-3 gap-4 my-6 sm:divide-x-2 text-center">
-              <div className="">
+              <div className="px-2">
                 <h1 className="font-bold text-xl">Platforms</h1>
                 <div className="divide-x-2 mt-2">
                   {details.parent_platforms.map((platform) => (
@@ -122,13 +120,13 @@ export default function GameDetails(): ReactElement {
                   ))}
                 </div>
               </div>
-              <div className="">
+              <div className="px-2">
                 <h1 className="font-bold text-xl">Metacritic Score</h1>
                 <p className="font-normal text-base mt-2">
                   {details.metacritic}
                 </p>
               </div>
-              <div className="">
+              <div className="px-2">
                 <h1 className="font-bold text-xl">Genres</h1>
                 <div className="divide-x-2 mt-2">
                   {details.genres.map((genre) => (
@@ -140,7 +138,7 @@ export default function GameDetails(): ReactElement {
               </div>
             </div>
             <h1 className="font-bold text-2xl my-3">About</h1>
-            {parse(details.description)}
+            <div className="text-justify">{parse(details.description)}</div>
             <div className="my-6">
               <p className="font-bold text-xl">Website</p>
               <a href={details.website}>{details.website}</a>
@@ -160,13 +158,17 @@ export default function GameDetails(): ReactElement {
               </div>
             </div>
             <h1 className="font-bold text-xl">Screenshots</h1>
-            <div className="w-full sm:w-2/3 mx-auto mt-3">
-              <AliceCarousel
-                autoPlayInterval={5000}
-                disableButtonsControls={true}
-                infinite
-                items={images}
-              />
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 my-3 justify-items-center">
+              {state.images.map((item: ImageType) => (
+                <a
+                  href={item.image}
+                  key={item.id}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <img className="w-64" src={item.image} alt="game" />
+                </a>
+              ))}
             </div>
           </div>
         </div>
