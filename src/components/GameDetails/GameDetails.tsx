@@ -1,6 +1,7 @@
-import React, { ReactElement, useEffect, useState } from "react";
+import React, { ReactElement } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import parse from "html-react-parser";
+import { useQuery } from "react-query";
 
 interface ParamTypes {
   id: string;
@@ -46,40 +47,48 @@ interface Game {
 export default function GameDetails(): ReactElement {
   const { id } = useParams<ParamTypes>();
   const { state } = useLocation<LocationType>();
-  const [details, setDetails] = useState<Game>();
+  let details: Game | null = null;
 
   const images: any = [];
   state.images.forEach((item: ImageType) => {
     images.push(<img src={item.image} alt="game" />);
   });
 
-  useEffect(() => {
-    console.log("[GameDetails] UEF");
-    const getData = async () => {
-      const res = await fetch(`https://api.rawg.io/api/games/${id}`);
-      const data = await res.json();
-      setDetails({
-        name: data.name,
-        description: data.description,
-        released: data.released,
-        background_image: data.background_image,
-        website: data.website,
-        metacritic: data.metacritic,
-        playtime: data.playtime,
-        parent_platforms: data.parent_platforms,
-        genres: data.genres,
-        stores: data.stores,
-      });
-    };
-
-    getData();
-  }, [id]);
+  const getData = async () => {
+    const res = await fetch(`https://api.rawg.io/api/games/${id}`);
+    return res.json();
+  };
 
   const formatDate = (releasedDate: string): string => {
     const date = new Date(releasedDate).toDateString();
     let arr = date.split(" ");
     return arr[1] + " " + arr[2] + ", " + arr[3];
   };
+
+  const { isLoading, error, data } = useQuery(id, getData);
+
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
+
+  if (error) {
+    return <p>Error fetching data</p>;
+  }
+
+  if (data) {
+    details = {
+      name: data.name,
+      description: data.description,
+      released: data.released,
+      background_image: data.background_image,
+      website: data.website,
+      metacritic: data.metacritic,
+      playtime: data.playtime,
+      parent_platforms: data.parent_platforms,
+      genres: data.genres,
+      stores: data.stores,
+    };
+  }
 
   return (
     <div className="dark:bg-black min-h-screen bg-white">
