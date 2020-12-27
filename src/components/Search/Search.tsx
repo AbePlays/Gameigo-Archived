@@ -37,7 +37,7 @@ export default class Search extends Component<Props, State> {
 
   render() {
     return (
-      <div className="w-full">
+      <div className="max-w-screen-lg mx-auto py-6 px-4">
         <div className="relative">
           <svg
             className="w-4 absolute top-3 left-3"
@@ -71,7 +71,7 @@ export default class Search extends Component<Props, State> {
             }}
           />
         </div>
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
           {this.state.results.map((item: Game) => (
             <GameCard key={item.id} game={item} />
           ))}
