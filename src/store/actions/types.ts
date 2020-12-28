@@ -13,6 +13,7 @@ export interface SetUserInfoAction {
   payload: {
     email: string;
     uid: string;
+    name: string;
   };
 }
 

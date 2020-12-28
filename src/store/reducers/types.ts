@@ -4,5 +4,6 @@ export interface DarkModeState {
 
 export interface UserInfoSate {
   email: string;
+  name: string;
   uid: string;
 }

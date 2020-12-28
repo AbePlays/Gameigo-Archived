@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Form, Formik, Field, ErrorMessage } from "formik";
 
-import { login, signup } from "../../firebase/functions";
+import { createUser, login, signup } from "../../firebase/functions";
 import { RouteComponentProps } from "react-router-dom";
 
 interface Props {}
@@ -78,6 +78,7 @@ export default class Auth extends Component<
               } else {
                 console.log("[AUTH] SIGN UP");
                 user = await signup(values.email, values.password);
+                await createUser(user, values.name);
               }
               setSubmitting(false);
               if (user) {

@@ -4,7 +4,7 @@ import { NavLink } from "react-router-dom";
 import { Dispatch } from "redux";
 
 import firebase from "../../firebase/firebase";
-import { signout } from "../../firebase/functions";
+import { getUserData, signout } from "../../firebase/functions";
 import DarkModeAction from "../../store/actions/DarkMode";
 import { DarkModeState, UserInfoSate } from "../../store/reducers/types";
 import SetUserInfoAction from "../../store/actions/SetUserInfo";
@@ -12,9 +12,9 @@ import RemoveUserInfoAction from "../../store/actions/RemoveUserInfo";
 
 interface Props {
   isDark: boolean;
-  email: string;
+  name: string;
   toggleDarkMode: () => void;
-  setUserInfo: (email: string, uid: string) => void;
+  setUserInfo: (email: string, uid: string, name: string) => void;
   removeUserInfo: () => void;
 }
 
@@ -40,13 +40,16 @@ class Navbar extends Component<Props, State> {
 
   componentDidMount() {
     console.log("[Navbar] CDM");
-    firebase.auth().onAuthStateChanged((user) => {
+    firebase.auth().onAuthStateChanged(async (user) => {
       if (user) {
-        this.props.setUserInfo(user.email!, user.uid);
-        console.log(user);
+        const data = await getUserData(user.uid);
+        if (data) {
+          this.props.setUserInfo(user.email!, user.uid, data.name);
+        } else {
+          console.log("Error getting data from DB");
+        }
       } else {
         this.props.removeUserInfo();
-        console.log("EMPTY");
       }
     });
   }
@@ -66,9 +69,9 @@ class Navbar extends Component<Props, State> {
               <NavLink to="/about" className="ml-8">
                 <p>About</p>
               </NavLink>
-              {this.props.email ? (
+              {this.props.name ? (
                 <div className="ml-8">
-                  <p>{this.props.email}</p>
+                  <p>{this.props.name}</p>
                   <p onClick={signout}>Log out</p>
                 </div>
               ) : (
@@ -193,7 +196,7 @@ class Navbar extends Component<Props, State> {
 const mapStateToProps = (state: ReduxState) => {
   return {
     isDark: state.darkMode.isDark,
-    email: state.userInfo.email,
+    name: state.userInfo.name,
   };
 };
 
@@ -202,8 +205,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     toggleDarkMode: () => {
       dispatch(DarkModeAction());
     },
-    setUserInfo: (email: string, uid: string) => {
-      dispatch(SetUserInfoAction(email, uid));
+    setUserInfo: (email: string, uid: string, name: string) => {
+      dispatch(SetUserInfoAction(email, uid, name));
     },
     removeUserInfo: () => {
       dispatch(RemoveUserInfoAction());
