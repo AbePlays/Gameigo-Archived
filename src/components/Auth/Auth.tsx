@@ -11,6 +11,7 @@ interface FormType {
   email?: string;
   password?: string;
   confirmPassword?: string;
+  name?: string;
 }
 
 export default class Auth extends Component<Props, State> {
@@ -38,6 +39,7 @@ export default class Auth extends Component<Props, State> {
               email: "",
               password: "",
               confirmPassword: "",
+              name: "",
             }}
             validate={(values) => {
               const errors: FormType = {};
@@ -54,6 +56,8 @@ export default class Auth extends Component<Props, State> {
               if (!this.state.isLogIn) {
                 if (values.password !== values.confirmPassword) {
                   errors.confirmPassword = "Passwords do not match";
+                } else if (values.name.length === 0) {
+                  errors.name = "Name field cannot be empty";
                 }
               }
 
@@ -74,7 +78,7 @@ export default class Auth extends Component<Props, State> {
           >
             {({ isSubmitting }) => (
               <Form className="mt-12">
-                <div className="dark:text-white">
+                <div>
                   <h1 className="mb-2">Email</h1>
                   <Field
                     type="email"
@@ -88,6 +92,25 @@ export default class Auth extends Component<Props, State> {
                     )}
                   />
                 </div>
+                {!this.state.isLogIn && (
+                  <>
+                    <div className="h-4"></div>
+                    <div>
+                      <h1 className="mb-2">Full Name</h1>
+                      <Field
+                        type="text"
+                        name="name"
+                        className="w-full h-10 pl-6 dark:bg-gray-700"
+                      />
+                      <ErrorMessage
+                        name="name"
+                        render={(message) => (
+                          <div className="text-red-400 mt-2">{message}</div>
+                        )}
+                      />
+                    </div>
+                  </>
+                )}
                 <div className="h-4"></div>
                 <div>
                   <h1 className="mb-2">Password</h1>
