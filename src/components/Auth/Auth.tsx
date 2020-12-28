@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { Form, Formik, Field, ErrorMessage } from "formik";
 
+import { login, signup } from "../../firebase/functions";
+
 interface Props {}
 
 interface State {
@@ -63,17 +65,16 @@ export default class Auth extends Component<Props, State> {
 
               return errors;
             }}
-            onSubmit={(values, { setSubmitting }) => {
+            onSubmit={async (values, { setSubmitting }) => {
               console.log(values);
               if (this.state.isLogIn) {
-                console.log("LOG IN");
+                console.log("[AUTH] LOG IN");
+                await login(values.email, values.password);
               } else {
-                console.log("SIGN UP");
+                console.log("[AUTH] SIGN UP");
+                await signup(values.email, values.password);
               }
-              setTimeout(() => {
-                console.log("DONE");
-                setSubmitting(false);
-              }, 4000);
+              setSubmitting(false);
             }}
           >
             {({ isSubmitting }) => (
