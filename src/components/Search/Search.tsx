@@ -37,7 +37,7 @@ export default class Search extends Component<Props, State> {
 
   render() {
     return (
-      <div className="dark:bg-black dark:text-white min-h-screen">
+      <div className="dark:bg-black dark:text-white bg-gray-50 min-h-screen">
         <div className="max-w-screen-lg mx-auto py-6 px-4">
           <div className="relative">
             <svg
@@ -58,7 +58,7 @@ export default class Search extends Component<Props, State> {
               type="text"
               name="search"
               placeholder="Search Games"
-              className="pl-10 h-10 w-full border-black border rounded-lg dark:bg-darkSecondary"
+              className="pl-10 h-10 w-full rounded-lg dark:bg-darkSecondary shadow outline-none"
               value={this.state.query}
               onChange={(e) => {
                 this.setState({

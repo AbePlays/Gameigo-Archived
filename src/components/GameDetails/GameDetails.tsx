@@ -84,7 +84,7 @@ export default function GameDetails(): ReactElement {
   }
 
   return (
-    <div className="dark:bg-black min-h-screen bg-white">
+    <div className="dark:bg-black min-h-screen bg-gray-50">
       {isLoading && <Spinner />}
       {error && (
         <p className="text-white text-center py-8">Error while fetching data</p>

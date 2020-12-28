@@ -26,7 +26,7 @@ export default function GameCard({ game }: Props): ReactElement {
         },
       }}
     >
-      <div className="shadow-lg rounded-xl cursor-pointer h-full overflow-hidden dark:bg-darkSecondary">
+      <div className="shadow-lg rounded-xl cursor-pointer h-full overflow-hidden bg-white dark:bg-darkSecondary">
         <div className="h-64">
           <img
             className="w-full h-full object-cover"
