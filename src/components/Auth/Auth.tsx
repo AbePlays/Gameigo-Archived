@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Form, Formik, Field, ErrorMessage } from "formik";
 
 import { login, signup } from "../../firebase/functions";
+import { RouteComponentProps } from "react-router-dom";
 
 interface Props {}
 
@@ -16,7 +17,10 @@ interface FormType {
   name?: string;
 }
 
-export default class Auth extends Component<Props, State> {
+export default class Auth extends Component<
+  Props & RouteComponentProps,
+  State
+> {
   state = {
     isLogIn: true,
   };
@@ -67,14 +71,20 @@ export default class Auth extends Component<Props, State> {
             }}
             onSubmit={async (values, { setSubmitting }) => {
               console.log(values);
+              let user: any = {};
               if (this.state.isLogIn) {
                 console.log("[AUTH] LOG IN");
-                await login(values.email, values.password);
+                user = await login(values.email, values.password);
               } else {
                 console.log("[AUTH] SIGN UP");
-                await signup(values.email, values.password);
+                user = await signup(values.email, values.password);
               }
               setSubmitting(false);
+              if (user) {
+                this.props.history.replace("/");
+              } else {
+                console.log("FAILED");
+              }
             }}
           >
             {({ isSubmitting }) => (

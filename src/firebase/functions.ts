@@ -22,3 +22,11 @@ export const login = async (email: string, password: string) => {
     console.log(e);
   }
 };
+
+export const signout = async () => {
+  try {
+    await firebase.auth().signOut();
+  } catch (e) {
+    console.log(e);
+  }
+};

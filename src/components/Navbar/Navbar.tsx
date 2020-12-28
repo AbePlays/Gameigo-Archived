@@ -3,13 +3,19 @@ import { connect } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { Dispatch } from "redux";
 
-import DarkModeAction from "../../store/actions/DarkMode";
-import { DarkModeState } from "../../store/reducers/types";
 import firebase from "../../firebase/firebase";
+import { signout } from "../../firebase/functions";
+import DarkModeAction from "../../store/actions/DarkMode";
+import { DarkModeState, UserInfoSate } from "../../store/reducers/types";
+import SetUserInfoAction from "../../store/actions/SetUserInfo";
+import RemoveUserInfoAction from "../../store/actions/RemoveUserInfo";
 
 interface Props {
-  toggleDarkMode: () => void;
   isDark: boolean;
+  email: string;
+  toggleDarkMode: () => void;
+  setUserInfo: (email: string, uid: string) => void;
+  removeUserInfo: () => void;
 }
 
 interface State {
@@ -18,6 +24,7 @@ interface State {
 
 interface ReduxState {
   darkMode: DarkModeState;
+  userInfo: UserInfoSate;
 }
 
 class Navbar extends Component<Props, State> {
@@ -35,8 +42,10 @@ class Navbar extends Component<Props, State> {
     console.log("[Navbar] CDM");
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
+        this.props.setUserInfo(user.email!, user.uid);
         console.log(user);
       } else {
+        this.props.removeUserInfo();
         console.log("EMPTY");
       }
     });
@@ -57,9 +66,16 @@ class Navbar extends Component<Props, State> {
               <NavLink to="/about" className="ml-8">
                 <p>About</p>
               </NavLink>
-              <NavLink to="/auth" className="ml-8">
-                <p>Log in</p>
-              </NavLink>
+              {this.props.email ? (
+                <div className="ml-8">
+                  <p>{this.props.email}</p>
+                  <p onClick={signout}>Log out</p>
+                </div>
+              ) : (
+                <NavLink to="/auth" className="ml-8">
+                  <p>Log in</p>
+                </NavLink>
+              )}
               <div className="flex items-center ml-8">
                 <svg
                   className="w-4"
@@ -177,6 +193,7 @@ class Navbar extends Component<Props, State> {
 const mapStateToProps = (state: ReduxState) => {
   return {
     isDark: state.darkMode.isDark,
+    email: state.userInfo.email,
   };
 };
 
@@ -184,6 +201,12 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
     toggleDarkMode: () => {
       dispatch(DarkModeAction());
+    },
+    setUserInfo: (email: string, uid: string) => {
+      dispatch(SetUserInfoAction(email, uid));
+    },
+    removeUserInfo: () => {
+      dispatch(RemoveUserInfoAction());
     },
   };
 };
