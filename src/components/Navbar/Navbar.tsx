@@ -20,6 +20,7 @@ interface Props {
 
 interface State {
   isDropDownOpen: boolean;
+  isOptionsMenuOpen: boolean;
 }
 
 interface ReduxState {
@@ -30,11 +31,18 @@ interface ReduxState {
 class Navbar extends Component<Props, State> {
   state = {
     isDropDownOpen: false,
+    isOptionsMenuOpen: false,
   };
 
   toggleDropDown = () => {
     this.setState((prevState) => ({
       isDropDownOpen: !prevState.isDropDownOpen,
+    }));
+  };
+
+  toggleOptionsMenu = () => {
+    this.setState((prevState) => ({
+      isOptionsMenuOpen: !prevState.isOptionsMenuOpen,
     }));
   };
 
@@ -70,15 +78,44 @@ class Navbar extends Component<Props, State> {
                 <p>About</p>
               </NavLink>
               {this.props.name ? (
-                <div className="ml-8">
-                  <p>{this.props.name}</p>
-                  <p onClick={signout}>Log out</p>
+                <div className="ml-8 flex items-center relative">
+                  <p>Hi {this.props.name}</p>
+                  {this.state.isOptionsMenuOpen && (
+                    <div className="shadow bg-white dark:bg-darkSecondary absolute right-0 top-12 w-48 px-4 py-2 text-right divide-y">
+                      <div className="py-2">
+                        <NavLink to="/favorites">
+                          <span>Favorites</span>
+                        </NavLink>
+                      </div>
+                      <div className="py-2">
+                        <span className="cursor-pointer" onClick={signout}>
+                          Log Out
+                        </span>
+                      </div>
+                    </div>
+                  )}
+                  <svg
+                    className="w-4 ml-2 cursor-pointer"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    onClick={this.toggleOptionsMenu}
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M19 9l-7 7-7-7"
+                    />
+                  </svg>
                 </div>
               ) : (
                 <NavLink to="/auth" className="ml-8">
                   <p>Log in</p>
                 </NavLink>
               )}
+
               <div className="flex items-center ml-8">
                 <svg
                   className="w-4"
@@ -160,20 +197,39 @@ class Navbar extends Component<Props, State> {
           </div>
           {this.state.isDropDownOpen && (
             <div className="mt-2 px-4 py-2">
+              {this.props.name && (
+                <div className="py-2 text-center">
+                  <p>Hi {this.props.name}</p>
+                </div>
+              )}
               <div className="divide-y">
                 <div className="py-2" onClick={this.toggleDropDown}>
                   <NavLink to="/search">Search</NavLink>
                 </div>
+                {this.props.name && (
+                  <div className="py-2" onClick={this.toggleDropDown}>
+                    <NavLink to="/favorites" className="">
+                      Favorites
+                    </NavLink>
+                  </div>
+                )}
                 <div className="py-2" onClick={this.toggleDropDown}>
                   <NavLink to="/about" className="">
                     About
                   </NavLink>
                 </div>
-                <div className="py-2" onClick={this.toggleDropDown}>
-                  <NavLink to="/auth" className="">
-                    Log in
-                  </NavLink>
+                <div className="py-2">
+                  {this.props.name ? (
+                    <span className="cursor-pointer" onClick={signout}>
+                      Sign Out
+                    </span>
+                  ) : (
+                    <NavLink to="/auth" className="">
+                      Log in
+                    </NavLink>
+                  )}
                 </div>
+
                 <div className="py-2">
                   <span
                     className="cursor-pointer"
