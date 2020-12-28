@@ -106,7 +106,9 @@ export default function GameDetails(): ReactElement {
             }}
           />
           <div className="max-w-screen-lg mx-auto py-6 px-4 z-10 relative text-white">
-            <h1 className="font-bold text-6xl my-6">{details.name}</h1>
+            <h1 className="font-bold text-4xl my-6 sm:text-6xl">
+              {details.name}
+            </h1>
             <div className="flex flex-wrap my-6 items-center">
               <p className="bg-white px-2 mr-4 rounded-md text-black">
                 {formatDate(details.released)}

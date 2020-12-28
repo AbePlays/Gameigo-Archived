@@ -58,7 +58,7 @@ export default function Trending(): ReactElement {
   return (
     <div className="dark:bg-black dark:text-white min-h-screen">
       <div className="max-w-screen-lg mx-auto py-6 px-4">
-        <h1 className="font-bold text-6xl">New and trending</h1>
+        <h1 className="font-bold text-4xl sm:text-6xl">New and trending</h1>
         <p className="font-normal my-3">
           Based on player counts and release date
         </p>
