@@ -9,6 +9,7 @@ import Navbar from "./components/Navbar";
 import Search from "./components/Search";
 import Trending from "./components/Trending";
 import RootReducer from "./store/reducers";
+import Auth from "./components/Auth";
 
 const store = createStore(RootReducer);
 const queryClient = new QueryClient();
@@ -22,6 +23,7 @@ function App() {
           <Switch>
             <Route path="/" component={Trending} exact />
             <Route path="/search" component={Search} />
+            <Route path="/auth" component={Auth} />
             <Route path="/:id" component={GameDetails} />
           </Switch>
         </BrowserRouter>
