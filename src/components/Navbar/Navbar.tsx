@@ -53,6 +53,16 @@ class Navbar extends Component<Props, State> {
     }));
   };
 
+  closeWindow = () => {
+    if (this.state.isDropDownOpen) {
+      this.toggleDropDown();
+    }
+
+    if (this.state.isOptionsMenuOpen) {
+      this.toggleOptionsMenu();
+    }
+  };
+
   componentDidMount() {
     console.log("[Navbar] CDM");
     firebase.auth().onAuthStateChanged(async (user) => {
@@ -76,17 +86,25 @@ class Navbar extends Component<Props, State> {
 
   render() {
     return (
-      <div className="shadow dark:bg-darkSecondary dark:text-white">
+      <div className="shadow dark:bg-darkSecondary dark:text-white relative z-10">
         <div className=" max-w-screen-xl mx-auto p-4">
           <div className="flex justify-between items-center">
-            <NavLink to="/">
+            <NavLink to="/" onClick={this.closeWindow}>
               <h1 className="tracking-widest">GAMEIGO</h1>
             </NavLink>
             <div className="sm:flex hidden">
-              <NavLink to="/search">
+              <NavLink
+                to="/search"
+                className="hover:text-gray-400 transition duration-300"
+                onClick={this.closeWindow}
+              >
                 <p>Search</p>
               </NavLink>
-              <NavLink to="/about" className="ml-8">
+              <NavLink
+                to="/about"
+                className="ml-8 hover:text-gray-400 transition duration-300"
+                onClick={this.closeWindow}
+              >
                 <p>About</p>
               </NavLink>
               {this.props.userId ? (
@@ -95,35 +113,63 @@ class Navbar extends Component<Props, State> {
                   {this.state.isOptionsMenuOpen && (
                     <div className="shadow bg-white dark:bg-darkSecondary absolute right-0 top-12 w-48 px-4 py-2 text-right divide-y">
                       <div className="py-2">
-                        <NavLink to="/favorites">
+                        <NavLink
+                          to="/favorites"
+                          className="hover:text-gray-400 transition duration-300"
+                          onClick={this.closeWindow}
+                        >
                           <span>Favorites</span>
                         </NavLink>
                       </div>
                       <div className="py-2">
-                        <span className="cursor-pointer" onClick={signout}>
+                        <span
+                          className="cursor-pointer hover:text-gray-400 transition duration-300"
+                          onClick={signout}
+                        >
                           Log Out
                         </span>
                       </div>
                     </div>
                   )}
-                  <svg
-                    className="w-4 ml-2 cursor-pointer"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    onClick={this.toggleOptionsMenu}
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M19 9l-7 7-7-7"
-                    />
-                  </svg>
+                  {this.state.isOptionsMenuOpen ? (
+                    <svg
+                      className="w-4 ml-2 cursor-pointer"
+                      onClick={this.toggleOptionsMenu}
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M5 15l7-7 7 7"
+                      />
+                    </svg>
+                  ) : (
+                    <svg
+                      className="w-4 ml-2 cursor-pointer"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      onClick={this.toggleOptionsMenu}
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M19 9l-7 7-7-7"
+                      />
+                    </svg>
+                  )}
                 </div>
               ) : (
-                <NavLink to="/auth" className="ml-8">
+                <NavLink
+                  to="/auth"
+                  className="ml-8 hover:text-gray-400 transition duration-300"
+                >
                   <p>Log in</p>
                 </NavLink>
               )}
@@ -216,27 +262,45 @@ class Navbar extends Component<Props, State> {
               )}
               <div className="divide-y">
                 <div className="py-2" onClick={this.toggleDropDown}>
-                  <NavLink to="/search">Search</NavLink>
+                  <NavLink
+                    to="/search"
+                    className="hover:text-gray-400 transition duration-300"
+                  >
+                    Search
+                  </NavLink>
                 </div>
                 {this.props.userId && (
                   <div className="py-2" onClick={this.toggleDropDown}>
-                    <NavLink to="/favorites" className="">
+                    <NavLink
+                      to="/favorites"
+                      className="hover:text-gray-400 transition duration-300"
+                    >
                       Favorites
                     </NavLink>
                   </div>
                 )}
                 <div className="py-2" onClick={this.toggleDropDown}>
-                  <NavLink to="/about" className="">
+                  <NavLink
+                    to="/about"
+                    className="hover:text-gray-400 transition duration-300"
+                  >
                     About
                   </NavLink>
                 </div>
                 <div className="py-2">
                   {this.props.userId ? (
-                    <span className="cursor-pointer" onClick={signout}>
+                    <span
+                      className="cursor-pointer hover:text-gray-400 transition duration-300"
+                      onClick={signout}
+                    >
                       Sign Out
                     </span>
                   ) : (
-                    <NavLink to="/auth" className="">
+                    <NavLink
+                      to="/auth"
+                      className="hover:text-gray-400 transition duration-300"
+                      onClick={this.toggleDropDown}
+                    >
                       Log in
                     </NavLink>
                   )}
@@ -244,7 +308,7 @@ class Navbar extends Component<Props, State> {
 
                 <div className="py-2">
                   <span
-                    className="cursor-pointer"
+                    className="cursor-pointer hover:text-gray-400 transition duration-300"
                     onClick={() => {
                       this.props.toggleDarkMode();
                     }}
