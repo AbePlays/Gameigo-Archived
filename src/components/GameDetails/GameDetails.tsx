@@ -151,8 +151,8 @@ export default function GameDetails(): ReactElement {
             <div
               className="w-max p-2 px-4 transition duration-300 rounded-lg text-xs sm:text-sm bg-transparent hover:bg-white hover:text-black text-white border border-white uppercase tracking-widest cursor-pointer"
               onClick={() => {
-                // addData(state.game);
-                removeData(state.game.id);
+                addData(state.game);
+                // removeData(state.game.id);
               }}
             >
               {/* {name ? ( */}
