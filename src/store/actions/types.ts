@@ -26,9 +26,17 @@ export type AddDataActionType = {
   };
 };
 
+export type RemoveDataActionType = {
+  type: typeof ActionTypes.REMOVE_DATA;
+  payload: {
+    uid: number;
+  };
+};
+
 export type UserInfoActionType =
   | RemoveUserInfoAction
   | SetUserInfoAction
-  | AddDataActionType;
+  | AddDataActionType
+  | RemoveDataActionType;
 
 export type DarkModeActionType = DarkModeAction;

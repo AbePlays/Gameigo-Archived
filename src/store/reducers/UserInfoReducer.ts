@@ -1,3 +1,4 @@
+import { Game } from "../../components/Trending/Trending";
 import * as ActionTypes from "../actions/ActionTypes";
 import { UserInfoActionType } from "../actions/types";
 import { UserInfoState } from "./types";
@@ -30,6 +31,13 @@ const DarkModeReducer = (state = initialState, action: UserInfoActionType) => {
       return {
         ...state,
         favorites: [...state.favorites, action.payload.game],
+      };
+    case ActionTypes.REMOVE_DATA:
+      return {
+        ...state,
+        favorites: state.favorites.filter(
+          (item: Game) => item.id !== action.payload.uid
+        ),
       };
     default:
       return state;
