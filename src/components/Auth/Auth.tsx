@@ -31,6 +31,46 @@ export default class Auth extends Component<
     }));
   };
 
+  validateForm = (values: FormType) => {
+    const errors: FormType = {};
+    if (!values.email) {
+      errors.email = "Required";
+    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)) {
+      errors.email = "Invalid email address";
+    } else if (values.password!.trim().length < 6) {
+      errors.password = "Password must be at least 6 characters";
+    }
+    if (!this.state.isLogIn) {
+      if (values.password !== values.confirmPassword) {
+        errors.confirmPassword = "Passwords do not match";
+      } else if (values.name!.length === 0) {
+        errors.name = "Name field cannot be empty";
+      }
+    }
+    return errors;
+  };
+
+  submitHandler = async (
+    values: FormType,
+    setSubmitting: (val: boolean) => void
+  ) => {
+    let user: any = {};
+    if (this.state.isLogIn) {
+      console.log("[AUTH] LOG IN");
+      user = await login(values.email!, values.password!);
+    } else {
+      console.log("[AUTH] SIGN UP");
+      user = await signup(values.email!, values.password!);
+      await createUser(user, values.name!);
+    }
+    setSubmitting(false);
+    if (user) {
+      this.props.history.replace("/");
+    } else {
+      console.log("FAILED");
+    }
+  };
+
   render() {
     return (
       <div className="dark:bg-black dark:text-white bg-gray-50 min-h-screen py-6 px-4">
@@ -48,113 +88,71 @@ export default class Auth extends Component<
               name: "",
             }}
             validate={(values) => {
-              const errors: FormType = {};
-              if (!values.email) {
-                errors.email = "Required";
-              } else if (
-                !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
-              ) {
-                errors.email = "Invalid email address";
-              } else if (values.password.trim().length < 6) {
-                errors.password = "Password must be at least 6 characters";
-              }
-
-              if (!this.state.isLogIn) {
-                if (values.password !== values.confirmPassword) {
-                  errors.confirmPassword = "Passwords do not match";
-                } else if (values.name.length === 0) {
-                  errors.name = "Name field cannot be empty";
-                }
-              }
-
-              return errors;
+              this.validateForm(values);
             }}
-            onSubmit={async (values, { setSubmitting }) => {
-              console.log(values);
-              let user: any = {};
-              if (this.state.isLogIn) {
-                console.log("[AUTH] LOG IN");
-                user = await login(values.email, values.password);
-              } else {
-                console.log("[AUTH] SIGN UP");
-                user = await signup(values.email, values.password);
-                await createUser(user, values.name);
-              }
-              setSubmitting(false);
-              if (user) {
-                this.props.history.replace("/");
-              } else {
-                console.log("FAILED");
-              }
+            onSubmit={(values, { setSubmitting }) => {
+              this.submitHandler(values, setSubmitting);
             }}
           >
             {({ isSubmitting }) => (
               <Form className="mt-12">
-                <div>
-                  <h1 className="mb-2">Email</h1>
-                  <Field
-                    type="email"
-                    name="email"
-                    className="w-full h-10 pl-6 dark:bg-gray-700"
-                  />
-                  <ErrorMessage
-                    name="email"
-                    render={(message) => (
-                      <div className="text-red-400 mt-2">{message}</div>
-                    )}
-                  />
-                </div>
+                <h1 className="mb-2">Email</h1>
+                <Field
+                  type="email"
+                  name="email"
+                  className="w-full h-10 px-6 dark:bg-gray-700"
+                />
+                <ErrorMessage
+                  name="email"
+                  render={(message) => (
+                    <div className="text-red-400 mt-2">{message}</div>
+                  )}
+                />
                 {!this.state.isLogIn && (
                   <>
                     <div className="h-4"></div>
-                    <div>
-                      <h1 className="mb-2">Full Name</h1>
-                      <Field
-                        type="text"
-                        name="name"
-                        className="w-full h-10 pl-6 dark:bg-gray-700"
-                      />
-                      <ErrorMessage
-                        name="name"
-                        render={(message) => (
-                          <div className="text-red-400 mt-2">{message}</div>
-                        )}
-                      />
-                    </div>
+                    <h1 className="mb-2">Full Name</h1>
+                    <Field
+                      type="text"
+                      name="name"
+                      className="w-full h-10 px-6 dark:bg-gray-700"
+                    />
+                    <ErrorMessage
+                      name="name"
+                      render={(message) => (
+                        <div className="text-red-400 mt-2">{message}</div>
+                      )}
+                    />
                   </>
                 )}
                 <div className="h-4"></div>
-                <div>
-                  <h1 className="mb-2">Password</h1>
-                  <Field
-                    type="password"
-                    name="password"
-                    className="w-full h-10 pl-6 dark:bg-gray-700"
-                  />
-                  <ErrorMessage
-                    name="password"
-                    render={(message) => (
-                      <div className="text-red-400 mt-2">{message}</div>
-                    )}
-                  />
-                </div>
+                <h1 className="mb-2">Password</h1>
+                <Field
+                  type="password"
+                  name="password"
+                  className="w-full h-10 px-6 dark:bg-gray-700"
+                />
+                <ErrorMessage
+                  name="password"
+                  render={(message) => (
+                    <div className="text-red-400 mt-2">{message}</div>
+                  )}
+                />
                 {!this.state.isLogIn && (
                   <>
                     <div className="h-4"></div>
-                    <div>
-                      <h1 className="mb-2">Confirm Password</h1>
-                      <Field
-                        type="password"
-                        name="confirmPassword"
-                        className="w-full h-10 pl-6 dark:bg-gray-700"
-                      />
-                      <ErrorMessage
-                        name="confirmPassword"
-                        render={(message) => (
-                          <div className="text-red-400 mt-2">{message}</div>
-                        )}
-                      />
-                    </div>
+                    <h1 className="mb-2">Confirm Password</h1>
+                    <Field
+                      type="password"
+                      name="confirmPassword"
+                      className="w-full h-10 px-6 dark:bg-gray-700"
+                    />
+                    <ErrorMessage
+                      name="confirmPassword"
+                      render={(message) => (
+                        <div className="text-red-400 mt-2">{message}</div>
+                      )}
+                    />
                   </>
                 )}
                 <div className="h-8"></div>

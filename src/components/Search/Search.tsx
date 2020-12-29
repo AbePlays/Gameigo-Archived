@@ -1,5 +1,7 @@
 import React, { Component } from "react";
+
 import { Game, GameCard } from "../Home";
+import Spinner from "../Spinner";
 
 interface Props {}
 
@@ -71,11 +73,15 @@ export default class Search extends Component<Props, State> {
               }}
             />
           </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
-            {this.state.results.map((item: Game) => (
-              <GameCard key={item.id} game={item} />
-            ))}
-          </div>
+          {this.state.loading ? (
+            <Spinner />
+          ) : (
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
+              {this.state.results.map((item: Game) => (
+                <GameCard key={item.id} game={item} />
+              ))}
+            </div>
+          )}
         </div>
       </div>
     );

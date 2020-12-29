@@ -5,6 +5,8 @@ import Spinner from "../Spinner";
 import { Game, GameCard } from "./index";
 
 export default function Home(): ReactElement {
+  const results: Game[] = [];
+
   const getData = async () => {
     const res = await fetch(
       "https://api.rawg.io/api/games?dates=2020-01-01,2020-12-31&ordering=-added"
@@ -14,15 +16,12 @@ export default function Home(): ReactElement {
 
   const { isLoading, error, data } = useQuery("games", getData);
 
-  const results: Game[] = [];
   if (data) {
     for (const obj of data.results) {
       const game: Game = {
         name: obj.name,
-        playtime: obj.playtime,
         released: obj.released,
         background_image: obj.background_image,
-        rating: obj.rating,
         id: obj.id,
         parent_platforms: obj.parent_platforms,
         genres: obj.genres,

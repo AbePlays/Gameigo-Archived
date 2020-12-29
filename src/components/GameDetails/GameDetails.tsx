@@ -75,6 +75,7 @@ export default function GameDetails(): ReactElement {
         break;
       }
     }
+    // eslint-disable-next-line
   }, []);
 
   const getData = async () => {
@@ -121,7 +122,7 @@ export default function GameDetails(): ReactElement {
             />
           </div>
           <div
-            className="absolute top-0 left-0 z-11  w-full h-full"
+            className="absolute top-0 left-0 z-11 w-full h-full"
             style={{
               opacity: 0.7,
               backgroundColor: "black",
@@ -148,7 +149,6 @@ export default function GameDetails(): ReactElement {
             <h1 className="font-bold text-4xl my-6 sm:text-6xl">
               {details.name}
             </h1>
-
             <div className="flex flex-wrap my-6 items-center">
               <p className="bg-white px-2 mr-4 rounded-md text-black">
                 {formatDate(details.released)}
@@ -157,7 +157,6 @@ export default function GameDetails(): ReactElement {
                 Average Playtime: {details.playtime} hours
               </p>
             </div>
-
             {userId && (
               <div
                 className="w-max p-2 px-4 transition duration-300 rounded-lg text-xs sm:text-sm bg-transparent hover:bg-white hover:text-black text-white border border-white uppercase tracking-widest cursor-pointer"
@@ -167,7 +166,6 @@ export default function GameDetails(): ReactElement {
                   } else {
                     disptach(AddData(state.game));
                   }
-
                   setGameIsFavorite((prevState) => !prevState);
                 }}
               >
@@ -210,7 +208,6 @@ export default function GameDetails(): ReactElement {
                 )}
               </div>
             )}
-
             <div className="grid sm:grid-cols-3 gap-4 my-6 sm:divide-x-2 text-center">
               <div className="px-2">
                 <h1 className="font-bold text-xl">Platforms</h1>
