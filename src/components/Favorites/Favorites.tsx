@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import { UserInfoSate } from "../../store/reducers/types";
+import { UserInfoState } from "../../store/reducers/types";
 import GameCard from "../Trending/GameCard";
 import { Game } from "../Trending/Trending";
 
@@ -12,7 +12,7 @@ interface Props {
 interface State {}
 
 interface ReduxState {
-  userInfo: UserInfoSate;
+  userInfo: UserInfoState;
 }
 
 class Favorites extends Component<Props, State> {

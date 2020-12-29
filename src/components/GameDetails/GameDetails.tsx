@@ -3,11 +3,11 @@ import { useHistory, useLocation, useParams } from "react-router-dom";
 import parse from "html-react-parser";
 import { useQuery } from "react-query";
 import Spinner from "../Spinner";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
-import { DarkModeState, UserInfoSate } from "../../store/reducers/types";
-import { addData, removeData } from "../../firebase/functions";
+import { DarkModeState, UserInfoState } from "../../store/reducers/types";
 import { Game } from "../Trending/Trending";
+import { AddData } from "../../store/actions/AddData";
 
 interface ParamTypes {
   id: string;
@@ -58,9 +58,10 @@ export default function GameDetails(): ReactElement {
 
   const history = useHistory();
   const name = useSelector(
-    (state: { darkMode: DarkModeState; userInfo: UserInfoSate }) =>
+    (state: { darkMode: DarkModeState; userInfo: UserInfoState }) =>
       state.userInfo.name
   );
+  const disptach = useDispatch();
 
   const images: any = [];
   state.images.forEach((item: ImageType) => {
@@ -151,7 +152,8 @@ export default function GameDetails(): ReactElement {
             <div
               className="w-max p-2 px-4 transition duration-300 rounded-lg text-xs sm:text-sm bg-transparent hover:bg-white hover:text-black text-white border border-white uppercase tracking-widest cursor-pointer"
               onClick={() => {
-                addData(state.game);
+                disptach(AddData(state.game));
+                // addData(state.game);
                 // removeData(state.game.id);
               }}
             >

@@ -1,8 +1,8 @@
 import * as ActionTypes from "../actions/ActionTypes";
 import { UserInfoActionType } from "../actions/types";
-import { UserInfoSate } from "./types";
+import { UserInfoState } from "./types";
 
-const initialState: UserInfoSate = {
+const initialState: UserInfoState = {
   email: "",
   uid: "",
   name: "",
@@ -25,6 +25,11 @@ const DarkModeReducer = (state = initialState, action: UserInfoActionType) => {
         uid: action.payload.uid,
         name: action.payload.name,
         favorites: action.payload.favorites,
+      };
+    case ActionTypes.ADD_DATA:
+      return {
+        ...state,
+        favorites: [...state.favorites, action.payload.game],
       };
     default:
       return state;

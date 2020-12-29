@@ -19,6 +19,16 @@ export interface SetUserInfoAction {
   };
 }
 
-export type UserInfoActionType = RemoveUserInfoAction | SetUserInfoAction;
+export type AddDataActionType = {
+  type: typeof ActionTypes.ADD_DATA;
+  payload: {
+    game: Game;
+  };
+};
+
+export type UserInfoActionType =
+  | RemoveUserInfoAction
+  | SetUserInfoAction
+  | AddDataActionType;
 
 export type DarkModeActionType = DarkModeAction;

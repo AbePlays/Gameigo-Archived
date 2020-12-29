@@ -1,7 +1,8 @@
 import React from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
-import { createStore } from "redux";
+import { createStore, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
+import thunk from "redux-thunk";
 import { QueryClient, QueryClientProvider } from "react-query";
 
 import GameDetails from "./components/GameDetails";
@@ -12,7 +13,7 @@ import RootReducer from "./store/reducers";
 import Auth from "./components/Auth";
 import Favorites from "./components/Favorites";
 
-const store = createStore(RootReducer);
+const store = createStore(RootReducer, applyMiddleware(thunk));
 const queryClient = new QueryClient();
 
 function App() {

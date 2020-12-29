@@ -4,7 +4,7 @@ export interface DarkModeState {
   isDark: boolean;
 }
 
-export interface UserInfoSate {
+export interface UserInfoState {
   email: string;
   name: string;
   uid: string;

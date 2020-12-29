@@ -6,7 +6,7 @@ import { Dispatch } from "redux";
 import firebase from "../../firebase/firebase";
 import { getUserData, signout } from "../../firebase/functions";
 import DarkModeAction from "../../store/actions/DarkMode";
-import { DarkModeState, UserInfoSate } from "../../store/reducers/types";
+import { DarkModeState, UserInfoState } from "../../store/reducers/types";
 import SetUserInfoAction from "../../store/actions/SetUserInfo";
 import RemoveUserInfoAction from "../../store/actions/RemoveUserInfo";
 import { Game } from "../Trending/Trending";
@@ -31,7 +31,7 @@ interface State {
 
 interface ReduxState {
   darkMode: DarkModeState;
-  userInfo: UserInfoSate;
+  userInfo: UserInfoState;
 }
 
 class Navbar extends Component<Props, State> {
