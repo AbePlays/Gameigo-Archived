@@ -1,4 +1,4 @@
-import { Game } from "../../components/Trending/Trending";
+import { Game } from "../../components/Home";
 import * as ActionTypes from "./ActionTypes";
 
 export interface DarkModeAction {

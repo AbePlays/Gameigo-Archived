@@ -1,7 +1,7 @@
 import { Dispatch } from "redux";
 
 import * as ActionTypes from "./ActionTypes";
-import { Game } from "../../components/Trending/Trending";
+import { Game } from "../../components/Home";
 import { addData } from "../../firebase/functions";
 import { AddDataActionType } from "./types";
 

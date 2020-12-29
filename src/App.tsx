@@ -8,7 +8,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import GameDetails from "./components/GameDetails";
 import Navbar from "./components/Navbar";
 import Search from "./components/Search";
-import Trending from "./components/Trending";
+import Home from "./components/Home";
 import RootReducer from "./store/reducers";
 import Auth from "./components/Auth";
 import Favorites from "./components/Favorites";
@@ -23,7 +23,7 @@ function App() {
         <BrowserRouter>
           <Navbar />
           <Switch>
-            <Route path="/" component={Trending} exact />
+            <Route path="/" component={Home} exact />
             <Route path="/search" component={Search} />
             <Route path="/auth" component={Auth} />
             <Route path="/favorites" component={Favorites} />

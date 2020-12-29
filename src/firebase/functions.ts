@@ -1,4 +1,4 @@
-import { Game } from "../components/Trending/Trending";
+import { Game } from "../components/Home";
 import firebase from "./firebase";
 
 export const signup = async (email: string, password: string) => {

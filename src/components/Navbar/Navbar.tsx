@@ -9,10 +9,11 @@ import DarkModeAction from "../../store/actions/DarkMode";
 import { DarkModeState, UserInfoState } from "../../store/reducers/types";
 import SetUserInfoAction from "../../store/actions/SetUserInfo";
 import RemoveUserInfoAction from "../../store/actions/RemoveUserInfo";
-import { Game } from "../Trending/Trending";
+import { Game } from "../Home";
 
 interface Props {
   isDark: boolean;
+  userId: string;
   name: string;
   toggleDarkMode: () => void;
   setUserInfo: (
@@ -59,7 +60,7 @@ class Navbar extends Component<Props, State> {
         const data = await getUserData(user.uid);
         if (data) {
           this.props.setUserInfo(
-            user.email!,
+            data.email,
             user.uid,
             data.name,
             data.favorites
@@ -88,7 +89,7 @@ class Navbar extends Component<Props, State> {
               <NavLink to="/about" className="ml-8">
                 <p>About</p>
               </NavLink>
-              {this.props.name ? (
+              {this.props.userId ? (
                 <div className="ml-8 flex items-center relative">
                   <p>Hi {this.props.name}</p>
                   {this.state.isOptionsMenuOpen && (
@@ -208,7 +209,7 @@ class Navbar extends Component<Props, State> {
           </div>
           {this.state.isDropDownOpen && (
             <div className="mt-2 px-4 py-2">
-              {this.props.name && (
+              {this.props.userId && (
                 <div className="py-2 text-center">
                   <p>Hi {this.props.name}</p>
                 </div>
@@ -217,7 +218,7 @@ class Navbar extends Component<Props, State> {
                 <div className="py-2" onClick={this.toggleDropDown}>
                   <NavLink to="/search">Search</NavLink>
                 </div>
-                {this.props.name && (
+                {this.props.userId && (
                   <div className="py-2" onClick={this.toggleDropDown}>
                     <NavLink to="/favorites" className="">
                       Favorites
@@ -230,7 +231,7 @@ class Navbar extends Component<Props, State> {
                   </NavLink>
                 </div>
                 <div className="py-2">
-                  {this.props.name ? (
+                  {this.props.userId ? (
                     <span className="cursor-pointer" onClick={signout}>
                       Sign Out
                     </span>
@@ -263,6 +264,7 @@ class Navbar extends Component<Props, State> {
 const mapStateToProps = (state: ReduxState) => {
   return {
     isDark: state.darkMode.isDark,
+    userId: state.userInfo.uid,
     name: state.userInfo.name,
   };
 };

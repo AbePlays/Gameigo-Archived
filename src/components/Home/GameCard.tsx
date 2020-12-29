@@ -1,7 +1,7 @@
 import React, { ReactElement } from "react";
 import { Link } from "react-router-dom";
 
-import { Game } from "./Trending";
+import { Game } from "./index";
 
 interface Props {
   game: Game;

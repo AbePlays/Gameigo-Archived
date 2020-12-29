@@ -1,12 +1,12 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement, useEffect, useState } from "react";
 import { useHistory, useLocation, useParams } from "react-router-dom";
 import parse from "html-react-parser";
 import { useQuery } from "react-query";
-import Spinner from "../Spinner";
 import { useDispatch, useSelector } from "react-redux";
 
-import { DarkModeState, UserInfoState } from "../../store/reducers/types";
-import { Game } from "../Trending/Trending";
+import Spinner from "../Spinner";
+import { UserInfoState } from "../../store/reducers/types";
+import { Game } from "../Home";
 import { AddData } from "../../store/actions/AddData";
 import { RemoveData } from "../../store/actions/RemoveData";
 
@@ -15,7 +15,6 @@ interface ParamTypes {
 }
 
 interface LocationType {
-  images: ImageType[];
   game: Game;
 }
 
@@ -55,19 +54,28 @@ interface GameInfo {
 export default function GameDetails(): ReactElement {
   const { id } = useParams<ParamTypes>();
   const { state } = useLocation<LocationType>();
+  const history = useHistory();
+  const [gameIsFavorite, setGameIsFavorite] = useState(false);
+
   let details: GameInfo | null = null;
 
-  const history = useHistory();
-  const name = useSelector(
-    (state: { darkMode: DarkModeState; userInfo: UserInfoState }) =>
-      state.userInfo.name
-  );
   const disptach = useDispatch();
+  const userId = useSelector(
+    (state: { userInfo: UserInfoState }) => state.userInfo.uid
+  );
+  const favorites: Game[] = useSelector(
+    (state: { userInfo: UserInfoState }) => state.userInfo.favorites
+  );
 
-  const images: any = [];
-  state.images.forEach((item: ImageType) => {
-    images.push(<img src={item.image} alt="game" />);
-  });
+  useEffect(() => {
+    console.log("[GAMEDETAILS] UEF");
+    for (const fav of favorites) {
+      if (fav.id === state.game.id) {
+        setGameIsFavorite(true);
+        break;
+      }
+    }
+  }, []);
 
   const getData = async () => {
     const res = await fetch(`https://api.rawg.io/api/games/${id}`);
@@ -150,53 +158,58 @@ export default function GameDetails(): ReactElement {
               </p>
             </div>
 
-            <div
-              className="w-max p-2 px-4 transition duration-300 rounded-lg text-xs sm:text-sm bg-transparent hover:bg-white hover:text-black text-white border border-white uppercase tracking-widest cursor-pointer"
-              onClick={() => {
-                // disptach(AddData(state.game));
-                disptach(RemoveData(state.game.id));
-                // addData(state.game);
-                // removeData(state.game.id);
-              }}
-            >
-              {/* {name ? ( */}
-              {/* <div className="flex items-center">
-                  <svg
-                    className="w-4 mr-2"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                    />
-                  </svg>
-                  Remove from favorites
-                </div>
-              ) : ( */}
-              <div className="flex items-center">
-                <svg
-                  className="w-4 mr-2"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"
-                  />
-                </svg>
-                Add to favorites
+            {userId && (
+              <div
+                className="w-max p-2 px-4 transition duration-300 rounded-lg text-xs sm:text-sm bg-transparent hover:bg-white hover:text-black text-white border border-white uppercase tracking-widest cursor-pointer"
+                onClick={() => {
+                  if (gameIsFavorite) {
+                    disptach(RemoveData(state.game.id));
+                  } else {
+                    disptach(AddData(state.game));
+                  }
+
+                  setGameIsFavorite((prevState) => !prevState);
+                }}
+              >
+                {gameIsFavorite ? (
+                  <div className="flex items-center">
+                    <svg
+                      className="w-4 mr-2"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                      />
+                    </svg>
+                    Remove from favorites
+                  </div>
+                ) : (
+                  <div className="flex items-center">
+                    <svg
+                      className="w-4 mr-2"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"
+                      />
+                    </svg>
+                    Add to favorites
+                  </div>
+                )}
               </div>
-              {/* )} */}
-            </div>
+            )}
 
             <div className="grid sm:grid-cols-3 gap-4 my-6 sm:divide-x-2 text-center">
               <div className="px-2">
@@ -252,7 +265,7 @@ export default function GameDetails(): ReactElement {
             </div>
             <h1 className="font-bold text-xl">Screenshots</h1>
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 my-3 justify-items-center">
-              {state.images.map((item: ImageType) => (
+              {state.game.short_screenshots.map((item: ImageType) => (
                 <a
                   href={item.image}
                   key={item.id}

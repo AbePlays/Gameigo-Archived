@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import GameCard from "../Trending/GameCard";
-import { Game } from "../Trending/Trending";
+import { Game, GameCard } from "../Home";
 
 interface Props {}
 

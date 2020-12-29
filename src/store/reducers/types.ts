@@ -1,4 +1,4 @@
-import { Game } from "../../components/Trending/Trending";
+import { Game } from "../../components/Home";
 
 export interface DarkModeState {
   isDark: boolean;

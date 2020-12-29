@@ -2,8 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 import { UserInfoState } from "../../store/reducers/types";
-import GameCard from "../Trending/GameCard";
-import { Game } from "../Trending/Trending";
+import { Game, GameCard } from "../Home";
 
 interface Props {
   favs: Game[];

@@ -2,32 +2,9 @@ import React, { ReactElement } from "react";
 import { useQuery } from "react-query";
 
 import Spinner from "../Spinner";
-import GameCard from "./GameCard";
+import { Game, GameCard } from "./index";
 
-export interface Game {
-  name: string;
-  playtime: number;
-  released: string;
-  background_image: string;
-  rating: number;
-  id: number;
-  parent_platforms: {
-    platform: {
-      id: number;
-      name: string;
-    };
-  }[];
-  genres: {
-    id: number;
-    name: string;
-  }[];
-  short_screenshots: {
-    id: number;
-    image: string;
-  }[];
-}
-
-export default function Trending(): ReactElement {
+export default function Home(): ReactElement {
   const getData = async () => {
     const res = await fetch(
       "https://api.rawg.io/api/games?dates=2020-01-01,2020-12-31&ordering=-added"

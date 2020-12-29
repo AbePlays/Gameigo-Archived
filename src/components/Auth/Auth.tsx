@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { Form, Formik, Field, ErrorMessage } from "formik";
+import { RouteComponentProps } from "react-router-dom";
 
 import { createUser, login, signup } from "../../firebase/functions";
-import { RouteComponentProps } from "react-router-dom";
 
 interface Props {}
 
