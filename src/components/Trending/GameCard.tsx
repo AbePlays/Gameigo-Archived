@@ -23,6 +23,7 @@ export default function GameCard({ game }: Props): ReactElement {
         pathname: `/${game.id}`,
         state: {
           images: game.short_screenshots,
+          game: game,
         },
       }}
     >

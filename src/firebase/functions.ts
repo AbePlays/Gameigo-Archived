@@ -1,3 +1,4 @@
+import { Game } from "../components/Trending/Trending";
 import firebase from "./firebase";
 
 export const signup = async (email: string, password: string) => {
@@ -43,10 +44,34 @@ export const createUser = async (user: firebase.User, name: string) => {
   }
 };
 
+const currentUser = () => {
+  try {
+    let user = firebase.auth().currentUser;
+    return user;
+  } catch (e) {
+    console.log(e);
+  }
+};
+
 export const getUserData = async (uid: string) => {
   try {
     let docs = await firebase.firestore().collection("users").doc(uid).get();
     return docs.data();
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const addData = async (data: Game) => {
+  try {
+    let user = currentUser();
+    if (user) {
+      let userDoc = firebase.firestore().collection("users").doc(user.uid);
+      let doc = await userDoc.get();
+      await userDoc.update({
+        favorites: [...doc.data()!.favorites, data],
+      });
+    }
   } catch (e) {
     console.log(e);
   }

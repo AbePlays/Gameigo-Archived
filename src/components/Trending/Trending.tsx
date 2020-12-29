@@ -1,7 +1,7 @@
 import React, { ReactElement } from "react";
 import { useQuery } from "react-query";
-import Spinner from "../Spinner";
 
+import Spinner from "../Spinner";
 import GameCard from "./GameCard";
 
 export interface Game {
