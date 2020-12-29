@@ -76,3 +76,20 @@ export const addData = async (data: Game) => {
     console.log(e);
   }
 };
+
+export const removeData = async (id: number) => {
+  try {
+    let user = currentUser();
+    if (user) {
+      let userData = firebase.firestore().collection("users").doc(user.uid);
+      let doc = await userData.get();
+      let arr: Game[] = doc.data()!.favorites;
+      arr = arr.filter((item: Game) => item.id !== id);
+      await userData.update({
+        favorites: arr,
+      });
+    }
+  } catch (e) {
+    console.log(e);
+  }
+};

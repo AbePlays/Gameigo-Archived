@@ -6,7 +6,7 @@ import Spinner from "../Spinner";
 import { useSelector } from "react-redux";
 
 import { DarkModeState, UserInfoSate } from "../../store/reducers/types";
-import { addData } from "../../firebase/functions";
+import { addData, removeData } from "../../firebase/functions";
 import { Game } from "../Trending/Trending";
 
 interface ParamTypes {
@@ -151,7 +151,8 @@ export default function GameDetails(): ReactElement {
             <div
               className="w-max p-2 px-4 transition duration-300 rounded-lg text-xs sm:text-sm bg-transparent hover:bg-white hover:text-black text-white border border-white uppercase tracking-widest cursor-pointer"
               onClick={() => {
-                addData(state.game);
+                // addData(state.game);
+                removeData(state.game.id);
               }}
             >
               {/* {name ? ( */}

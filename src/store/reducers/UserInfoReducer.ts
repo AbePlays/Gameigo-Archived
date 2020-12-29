@@ -6,6 +6,7 @@ const initialState: UserInfoSate = {
   email: "",
   uid: "",
   name: "",
+  favorites: [],
 };
 
 const DarkModeReducer = (state = initialState, action: UserInfoActionType) => {
@@ -16,12 +17,14 @@ const DarkModeReducer = (state = initialState, action: UserInfoActionType) => {
         email: "",
         uid: "",
         name: "",
+        favorites: [],
       };
     case ActionTypes.SET_USER:
       return {
         email: action.payload.email,
         uid: action.payload.uid,
         name: action.payload.name,
+        favorites: action.payload.favorites,
       };
     default:
       return state;

@@ -1,10 +1,12 @@
+import { Game } from "../../components/Trending/Trending";
 import * as ActionTypes from "./ActionTypes";
 import { UserInfoActionType } from "./types";
 
 const SetUserInfoAction = (
   email: string,
   uid: string,
-  name: string
+  name: string,
+  favorites: Game[]
 ): UserInfoActionType => {
   return {
     type: ActionTypes.SET_USER,
@@ -12,6 +14,7 @@ const SetUserInfoAction = (
       email: email,
       uid: uid,
       name: name,
+      favorites: favorites,
     },
   };
 };

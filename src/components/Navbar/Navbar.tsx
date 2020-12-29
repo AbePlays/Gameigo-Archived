@@ -9,12 +9,18 @@ import DarkModeAction from "../../store/actions/DarkMode";
 import { DarkModeState, UserInfoSate } from "../../store/reducers/types";
 import SetUserInfoAction from "../../store/actions/SetUserInfo";
 import RemoveUserInfoAction from "../../store/actions/RemoveUserInfo";
+import { Game } from "../Trending/Trending";
 
 interface Props {
   isDark: boolean;
   name: string;
   toggleDarkMode: () => void;
-  setUserInfo: (email: string, uid: string, name: string) => void;
+  setUserInfo: (
+    email: string,
+    uid: string,
+    name: string,
+    favorites: Game[]
+  ) => void;
   removeUserInfo: () => void;
 }
 
@@ -52,7 +58,12 @@ class Navbar extends Component<Props, State> {
       if (user) {
         const data = await getUserData(user.uid);
         if (data) {
-          this.props.setUserInfo(user.email!, user.uid, data.name);
+          this.props.setUserInfo(
+            user.email!,
+            user.uid,
+            data.name,
+            data.favorites
+          );
         } else {
           console.log("Error getting data from DB");
         }
@@ -261,8 +272,13 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     toggleDarkMode: () => {
       dispatch(DarkModeAction());
     },
-    setUserInfo: (email: string, uid: string, name: string) => {
-      dispatch(SetUserInfoAction(email, uid, name));
+    setUserInfo: (
+      email: string,
+      uid: string,
+      name: string,
+      favorites: Game[]
+    ) => {
+      dispatch(SetUserInfoAction(email, uid, name, favorites));
     },
     removeUserInfo: () => {
       dispatch(RemoveUserInfoAction());

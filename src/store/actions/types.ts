@@ -1,3 +1,4 @@
+import { Game } from "../../components/Trending/Trending";
 import * as ActionTypes from "./ActionTypes";
 
 export interface DarkModeAction {
@@ -14,6 +15,7 @@ export interface SetUserInfoAction {
     email: string;
     uid: string;
     name: string;
+    favorites: Game[];
   };
 }
 
