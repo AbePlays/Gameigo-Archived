@@ -7,7 +7,6 @@ const initialState: DarkModeState = {
 };
 
 const DarkModeReducer = (state = initialState, action: DarkModeActionType) => {
-  console.log("[DarkModeReducer]");
   switch (action.type) {
     case ActionTypes.TOGGLE_DARK_MODE:
       return {

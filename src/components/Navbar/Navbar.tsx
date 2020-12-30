@@ -3,26 +3,15 @@ import { connect } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { Dispatch } from "redux";
 
-import firebase from "../../firebase/firebase";
-import { getUserData, signout } from "../../firebase/functions";
+import { signout } from "../../firebase/functions";
 import DarkModeAction from "../../store/actions/DarkMode";
 import { DarkModeState, UserInfoState } from "../../store/reducers/types";
-import SetUserInfoAction from "../../store/actions/SetUserInfo";
-import RemoveUserInfoAction from "../../store/actions/RemoveUserInfo";
-import { Game } from "../Home";
 
 interface Props {
   isDark: boolean;
   userId: string;
   name: string;
   toggleDarkMode: () => void;
-  setUserInfo: (
-    email: string,
-    uid: string,
-    name: string,
-    favorites: Game[]
-  ) => void;
-  removeUserInfo: () => void;
 }
 
 interface State {
@@ -62,27 +51,6 @@ class Navbar extends Component<Props, State> {
       this.toggleOptionsMenu();
     }
   };
-
-  componentDidMount() {
-    console.log("[Navbar] CDM");
-    firebase.auth().onAuthStateChanged(async (user) => {
-      if (user) {
-        const data = await getUserData(user.uid);
-        if (data) {
-          this.props.setUserInfo(
-            data.email,
-            user.uid,
-            data.name,
-            data.favorites
-          );
-        } else {
-          console.log("Error getting data from DB");
-        }
-      } else {
-        this.props.removeUserInfo();
-      }
-    });
-  }
 
   render() {
     return (
@@ -337,17 +305,6 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
     toggleDarkMode: () => {
       dispatch(DarkModeAction());
-    },
-    setUserInfo: (
-      email: string,
-      uid: string,
-      name: string,
-      favorites: Game[]
-    ) => {
-      dispatch(SetUserInfoAction(email, uid, name, favorites));
-    },
-    removeUserInfo: () => {
-      dispatch(RemoveUserInfoAction());
     },
   };
 };

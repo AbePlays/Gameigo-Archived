@@ -11,7 +11,6 @@ const initialState: UserInfoState = {
 };
 
 const DarkModeReducer = (state = initialState, action: UserInfoActionType) => {
-  console.log("[UserInfoReducer]");
   switch (action.type) {
     case ActionTypes.REMOVE_USER:
       return {

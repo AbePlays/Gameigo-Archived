@@ -2,12 +2,10 @@ import { Game } from "../components/Home";
 import firebase from "./firebase";
 
 export const signup = async (email: string, password: string) => {
-  console.log(`EMAIL ${email} PASSWORD ${password}`);
   try {
     let res = await firebase
       .auth()
       .createUserWithEmailAndPassword(email, password);
-
     return res.user;
   } catch (e) {
     console.log(e);
@@ -15,7 +13,6 @@ export const signup = async (email: string, password: string) => {
 };
 
 export const login = async (email: string, password: string) => {
-  console.log(`EMAIL ${email} PASSWORD ${password}`);
   try {
     let res = await firebase.auth().signInWithEmailAndPassword(email, password);
     return res.user;
