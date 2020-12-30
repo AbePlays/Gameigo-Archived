@@ -9,6 +9,7 @@ import Search from "./components/Search";
 import Home from "./components/Home";
 import Auth from "./components/Auth";
 import Favorites from "./components/Favorites";
+import About from "./components/About";
 import { UserInfoState } from "./store/reducers/types";
 
 const queryClient = new QueryClient();
@@ -35,6 +36,7 @@ export default function App() {
             path="/favorites"
             render={() => (userId ? <Favorites /> : <Redirect to="/" />)}
           />
+          <Route path="/about" component={About} />
           <Route path="/:id" component={GameDetails} />
         </Switch>
       </BrowserRouter>
