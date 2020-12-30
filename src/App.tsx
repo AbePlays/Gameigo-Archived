@@ -1,21 +1,23 @@
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { QueryClient, QueryClientProvider } from "react-query";
 
 import firebase from "./firebase/firebase";
 import { getUserData } from "./firebase/functions";
-import GameDetails from "./components/GameDetails";
 import Navbar from "./components/Navbar";
-import Search from "./components/Search";
 import Home from "./components/Home";
-import Auth from "./components/Auth";
-import Favorites from "./components/Favorites";
-import About from "./components/About";
 import { UserInfoState } from "./store/reducers/types";
 import SetUserInfoAction from "./store/actions/SetUserInfo";
 import RemoveUserInfoAction from "./store/actions/RemoveUserInfo";
 import Spinner from "./components/Spinner";
+import Wrapper from "./components/Wrapper";
+
+const GameDetails = React.lazy(() => import("./components/GameDetails"));
+const Search = React.lazy(() => import("./components/Search"));
+const Auth = React.lazy(() => import("./components/Auth"));
+const Favorites = React.lazy(() => import("./components/Favorites"));
+const About = React.lazy(() => import("./components/About"));
 
 const queryClient = new QueryClient();
 
@@ -52,27 +54,90 @@ export default function App() {
       <BrowserRouter>
         <Navbar />
         {loading ? (
-          <div className="dark:bg-black dark:text-white bg-gray-50 min-h-screen">
-            <div className="max-w-screen-lg mx-auto py-6 px-4">
-              <Spinner />
-            </div>
-          </div>
+          <Wrapper>
+            <Spinner />
+          </Wrapper>
         ) : (
           <Switch>
             <Route path="/" component={Home} exact />
-            <Route path="/search" component={Search} />
+            <Route
+              path="/search"
+              render={() => (
+                <Suspense
+                  fallback={
+                    <Wrapper>
+                      <Spinner />
+                    </Wrapper>
+                  }
+                >
+                  <Search />
+                </Suspense>
+              )}
+            />
             <Route
               path="/auth"
               render={(props) =>
-                userId ? <Redirect to="/" /> : <Auth {...props} />
+                userId ? (
+                  <Redirect to="/" />
+                ) : (
+                  <Suspense
+                    fallback={
+                      <Wrapper>
+                        <Spinner />
+                      </Wrapper>
+                    }
+                  >
+                    <Auth {...props} />
+                  </Suspense>
+                )
               }
             />
             <Route
               path="/favorites"
-              render={() => (userId ? <Favorites /> : <Redirect to="/" />)}
+              render={() =>
+                userId ? (
+                  <Suspense
+                    fallback={
+                      <Wrapper>
+                        <Spinner />
+                      </Wrapper>
+                    }
+                  >
+                    <Favorites />
+                  </Suspense>
+                ) : (
+                  <Redirect to="/" />
+                )
+              }
             />
-            <Route path="/about" component={About} />
-            <Route path="/:id" component={GameDetails} />
+            <Route
+              path="/about"
+              render={() => (
+                <Suspense
+                  fallback={
+                    <Wrapper>
+                      <Spinner />
+                    </Wrapper>
+                  }
+                >
+                  <About />
+                </Suspense>
+              )}
+            />
+            <Route
+              path="/:id"
+              render={() => (
+                <Suspense
+                  fallback={
+                    <Wrapper>
+                      <Spinner />
+                    </Wrapper>
+                  }
+                >
+                  <GameDetails />
+                </Suspense>
+              )}
+            />
           </Switch>
         )}
       </BrowserRouter>

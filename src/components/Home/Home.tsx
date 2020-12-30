@@ -2,6 +2,7 @@ import React, { ReactElement } from "react";
 import { useQuery } from "react-query";
 
 import Spinner from "../Spinner";
+import Wrapper from "../Wrapper";
 import { Game, GameCard } from "./index";
 
 export default function Home(): ReactElement {
@@ -32,26 +33,22 @@ export default function Home(): ReactElement {
   }
 
   return (
-    <div className="dark:bg-black dark:text-white bg-gray-50 min-h-screen">
-      <div className="max-w-screen-lg mx-auto py-6 px-4">
-        <h1 className="font-bold text-4xl sm:text-6xl">New and trending</h1>
-        <p className="font-normal my-3">
-          Based on player counts and release date
-        </p>
-        {isLoading && <Spinner />}
-        {error && (
-          <p className="text-white text-center py-8">
-            Error while fetching data
-          </p>
-        )}
-        {data && (
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {results.map((game: Game) => (
-              <GameCard key={game.id} game={game} />
-            ))}
-          </div>
-        )}
-      </div>
-    </div>
+    <Wrapper>
+      <h1 className="font-bold text-4xl sm:text-6xl">New and trending</h1>
+      <p className="font-normal my-3">
+        Based on player counts and release date
+      </p>
+      {isLoading && <Spinner />}
+      {error && (
+        <p className="text-white text-center py-8">Error while fetching data</p>
+      )}
+      {data && (
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {results.map((game: Game) => (
+            <GameCard key={game.id} game={game} />
+          ))}
+        </div>
+      )}
+    </Wrapper>
   );
 }
