@@ -54,7 +54,7 @@ class Navbar extends Component<Props, State> {
 
   render() {
     return (
-      <div className="shadow dark:bg-darkSecondary dark:text-white relative z-10">
+      <div className="shadow dark:bg-darkSecondary dark:text-white relative z-50">
         <div className=" max-w-screen-xl mx-auto p-4">
           <div className="flex justify-between items-center">
             <NavLink to="/" onClick={this.closeWindow}>
