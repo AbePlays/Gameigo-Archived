@@ -3,11 +3,13 @@ import { Form, Formik, Field, ErrorMessage } from "formik";
 import { RouteComponentProps } from "react-router-dom";
 
 import { createUser, login, signup } from "../../firebase/functions";
+import Error from "./Error";
 
 interface Props {}
 
 interface State {
   isLogIn: boolean;
+  error: boolean;
 }
 
 interface FormType {
@@ -23,6 +25,7 @@ export default class Auth extends Component<
 > {
   state = {
     isLogIn: true,
+    error: false,
   };
 
   toggleLogin = () => {
@@ -67,118 +70,138 @@ export default class Auth extends Component<
     if (user) {
       this.props.history.replace("/");
     } else {
-      console.log("FAILED");
+      this.setState({
+        error: true,
+      });
+    }
+  };
+
+  errorHandler = (userAnswer: string) => {
+    if (userAnswer === "NO") {
+      this.props.history.replace("/");
+    } else if (userAnswer === "YES") {
+      this.setState({
+        error: false,
+      });
     }
   };
 
   render() {
     return (
       <div className="dark:bg-black dark:text-white bg-gray-50 min-h-screen py-6 px-4">
-        <div className="max-w-xl p-12 sm:mt-12 mx-auto bg-blue-50 dark:bg-darkSecondary shadow">
-          <h1 className="uppercase text-center text-xl tracking-wide sm:text-2xl">
-            {this.state.isLogIn
-              ? "Log in to your account"
-              : "Create a new account"}
-          </h1>
-          <Formik
-            initialValues={{
-              email: "",
-              password: "",
-              confirmPassword: "",
-              name: "",
-            }}
-            validate={(values) => {
-              this.validateForm(values);
-            }}
-            onSubmit={(values, { setSubmitting }) => {
-              this.submitHandler(values, setSubmitting);
-            }}
-          >
-            {({ isSubmitting }) => (
-              <Form className="mt-12">
-                <h1 className="mb-2">Email</h1>
-                <Field
-                  type="email"
-                  name="email"
-                  className="w-full h-10 px-6 dark:bg-gray-700"
-                />
-                <ErrorMessage
-                  name="email"
-                  render={(message) => (
-                    <div className="text-red-400 mt-2">{message}</div>
+        {this.state.error && (
+          <div className="max-w-md sm:mt-12 mx-auto dark:bg-darkSecondary shadow">
+            <Error errorHandler={this.errorHandler} />
+          </div>
+        )}
+
+        {!this.state.error && (
+          <div className="max-w-xl p-12 sm:mt-12 mx-auto bg-blue-50 dark:bg-darkSecondary shadow">
+            <h1 className="uppercase text-center text-xl tracking-wide sm:text-2xl">
+              {this.state.isLogIn
+                ? "Log in to your account"
+                : "Create a new account"}
+            </h1>
+            <Formik
+              initialValues={{
+                email: "",
+                password: "",
+                confirmPassword: "",
+                name: "",
+              }}
+              validate={(values) => {
+                this.validateForm(values);
+              }}
+              onSubmit={(values, { setSubmitting }) => {
+                this.submitHandler(values, setSubmitting);
+              }}
+            >
+              {({ isSubmitting }) => (
+                <Form className="mt-12">
+                  <h1 className="mb-2">Email</h1>
+                  <Field
+                    type="email"
+                    name="email"
+                    className="w-full h-10 px-6 dark:bg-gray-700"
+                  />
+                  <ErrorMessage
+                    name="email"
+                    render={(message) => (
+                      <div className="text-red-400 mt-2">{message}</div>
+                    )}
+                  />
+                  {!this.state.isLogIn && (
+                    <>
+                      <div className="h-4"></div>
+                      <h1 className="mb-2">Full Name</h1>
+                      <Field
+                        type="text"
+                        name="name"
+                        className="w-full h-10 px-6 dark:bg-gray-700"
+                      />
+                      <ErrorMessage
+                        name="name"
+                        render={(message) => (
+                          <div className="text-red-400 mt-2">{message}</div>
+                        )}
+                      />
+                    </>
                   )}
-                />
-                {!this.state.isLogIn && (
-                  <>
-                    <div className="h-4"></div>
-                    <h1 className="mb-2">Full Name</h1>
-                    <Field
-                      type="text"
-                      name="name"
-                      className="w-full h-10 px-6 dark:bg-gray-700"
-                    />
-                    <ErrorMessage
-                      name="name"
-                      render={(message) => (
-                        <div className="text-red-400 mt-2">{message}</div>
-                      )}
-                    />
-                  </>
-                )}
-                <div className="h-4"></div>
-                <h1 className="mb-2">Password</h1>
-                <Field
-                  type="password"
-                  name="password"
-                  className="w-full h-10 px-6 dark:bg-gray-700"
-                />
-                <ErrorMessage
-                  name="password"
-                  render={(message) => (
-                    <div className="text-red-400 mt-2">{message}</div>
+                  <div className="h-4"></div>
+                  <h1 className="mb-2">Password</h1>
+                  <Field
+                    type="password"
+                    name="password"
+                    className="w-full h-10 px-6 dark:bg-gray-700"
+                  />
+                  <ErrorMessage
+                    name="password"
+                    render={(message) => (
+                      <div className="text-red-400 mt-2">{message}</div>
+                    )}
+                  />
+                  {!this.state.isLogIn && (
+                    <>
+                      <div className="h-4"></div>
+                      <h1 className="mb-2">Confirm Password</h1>
+                      <Field
+                        type="password"
+                        name="confirmPassword"
+                        className="w-full h-10 px-6 dark:bg-gray-700"
+                      />
+                      <ErrorMessage
+                        name="confirmPassword"
+                        render={(message) => (
+                          <div className="text-red-400 mt-2">{message}</div>
+                        )}
+                      />
+                    </>
                   )}
-                />
-                {!this.state.isLogIn && (
-                  <>
-                    <div className="h-4"></div>
-                    <h1 className="mb-2">Confirm Password</h1>
-                    <Field
-                      type="password"
-                      name="confirmPassword"
-                      className="w-full h-10 px-6 dark:bg-gray-700"
-                    />
-                    <ErrorMessage
-                      name="confirmPassword"
-                      render={(message) => (
-                        <div className="text-red-400 mt-2">{message}</div>
-                      )}
-                    />
-                  </>
-                )}
-                <div className="h-8"></div>
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="w-full h-10 dark:bg-green-400 dark:hover:bg-green-300 transition duration-300 dark:text-black text-white bg-green-500 hover:bg-green-400"
-                >
-                  {isSubmitting ? "Submitting..." : "Submit"}
-                </button>
-                <div className="h-8"></div>
-                <p className="text-center">
-                  {this.state.isLogIn
-                    ? "Don't have an account?"
-                    : "Already have an account?"}
-                  <span
-                    className="text-green-400 cursor-pointer font-bold"
-                    onClick={this.toggleLogin}
+                  <div className="h-8"></div>
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="w-full h-10 dark:bg-green-400 dark:hover:bg-green-300 transition duration-300 dark:text-black text-white bg-green-500 hover:bg-green-400"
                   >
-                    {this.state.isLogIn ? "\tSign up" : "\tLog in"}
-                  </span>
-                </p>
-              </Form>
-            )}
-          </Formik>
-        </div>
+                    {isSubmitting ? "Submitting..." : "Submit"}
+                  </button>
+                  <div className="h-8"></div>
+                  <p className="text-center">
+                    {this.state.isLogIn
+                      ? "Don't have an account?"
+                      : "Already have an account?"}
+                    <span
+                      className="text-green-400 cursor-pointer font-bold"
+                      onClick={this.toggleLogin}
+                    >
+                      {this.state.isLogIn ? "\tSign up" : "\tLog in"}
+                    </span>
+                  </p>
+                </Form>
+              )}
+            </Formik>
+          </div>
+        )}
       </div>
     );
   }
