@@ -18,6 +18,7 @@ const Search = React.lazy(() => import("./components/Search"));
 const Auth = React.lazy(() => import("./components/Auth"));
 const Favorites = React.lazy(() => import("./components/Favorites"));
 const About = React.lazy(() => import("./components/About"));
+const NotFound = React.lazy(() => import("./components/NotFound"));
 
 const queryClient = new QueryClient();
 
@@ -125,7 +126,7 @@ export default function App() {
               )}
             />
             <Route
-              path="/:id"
+              path="/game/:id"
               render={() => (
                 <Suspense
                   fallback={
@@ -135,6 +136,19 @@ export default function App() {
                   }
                 >
                   <GameDetails />
+                </Suspense>
+              )}
+            />
+            <Route
+              render={() => (
+                <Suspense
+                  fallback={
+                    <Wrapper>
+                      <Spinner />
+                    </Wrapper>
+                  }
+                >
+                  <NotFound />
                 </Suspense>
               )}
             />

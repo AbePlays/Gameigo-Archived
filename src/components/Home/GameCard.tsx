@@ -20,7 +20,7 @@ export default function GameCard({ game }: Props): ReactElement {
   return (
     <Link
       to={{
-        pathname: `/${game.id}`,
+        pathname: `/game/${game.id}`,
         state: {
           game: game,
         },
