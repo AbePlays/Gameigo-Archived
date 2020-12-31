@@ -1,7 +1,8 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement, useState } from "react";
 import { Link } from "react-router-dom";
 
 import { Game } from "./index";
+import placeholder from "../../assets/placeholder.jpg";
 
 interface Props {
   game: Game;
@@ -10,6 +11,7 @@ interface Props {
 export default function GameCard({ game }: Props): ReactElement {
   let genres: string[] = [];
   game.genres.forEach((genre) => genres.push(genre.name));
+  const [imageSource, setImageSource] = useState(placeholder);
 
   const formatDate = (releasedDate: string): string => {
     const date = new Date(releasedDate).toDateString();
@@ -29,8 +31,12 @@ export default function GameCard({ game }: Props): ReactElement {
       <div className="shadow-lg rounded-xl cursor-pointer h-full overflow-hidden bg-white dark:bg-darkSecondary">
         <div className="h-64">
           <img
+            onLoad={() => {
+              setImageSource(game.background_image);
+            }}
+            loading="lazy"
             className="w-full h-full object-cover"
-            src={game.background_image}
+            src={imageSource}
             alt="game-background"
           />
         </div>
