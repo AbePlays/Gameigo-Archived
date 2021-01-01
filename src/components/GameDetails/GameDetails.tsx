@@ -68,7 +68,7 @@ export default function GameDetails(): ReactElement {
   );
 
   useEffect(() => {
-    console.log("[GAMEDETAILS] UEF");
+    window.scrollTo(0, 0);
     for (const fav of favorites) {
       if (fav.id === state.game.id) {
         setGameIsFavorite(true);
@@ -153,13 +153,13 @@ export default function GameDetails(): ReactElement {
               <p className="bg-white px-2 mr-4 rounded-md text-black">
                 {formatDate(details.released)}
               </p>
-              <p className="uppercase tracking-widest">
+              <p className="uppercase tracking-widest py-2">
                 Average Playtime: {details.playtime} hours
               </p>
             </div>
             {userId && (
               <div
-                className="w-max p-2 px-4 transition duration-300 rounded-lg text-xs sm:text-sm bg-transparent hover:bg-white hover:text-black text-white border border-white uppercase tracking-widest cursor-pointer"
+                className="w-max p-2 px-4 transition duration-500 rounded-lg text-xs sm:text-sm bg-transparent hover:bg-white hover:text-black text-white border border-white uppercase tracking-widest cursor-pointer"
                 onClick={() => {
                   if (gameIsFavorite) {
                     disptach(RemoveData(state.game.id));
@@ -209,7 +209,7 @@ export default function GameDetails(): ReactElement {
               </div>
             )}
             <div className="grid sm:grid-cols-3 gap-4 my-6 sm:divide-x-2 text-center">
-              <div className="px-2">
+              <div className="px-2 break-all">
                 <h1 className="font-bold text-xl">Platforms</h1>
                 <div className="divide-x-2 mt-2">
                   {details.parent_platforms.map((platform) => (
@@ -219,13 +219,13 @@ export default function GameDetails(): ReactElement {
                   ))}
                 </div>
               </div>
-              <div className="px-2">
+              <div className="px-2 break-all">
                 <h1 className="font-bold text-xl">Metacritic Score</h1>
                 <p className="font-normal text-base mt-2">
                   {details.metacritic}
                 </p>
               </div>
-              <div className="px-2">
+              <div className="px-2 break-all">
                 <h1 className="font-bold text-xl">Genres</h1>
                 <div className="divide-x-2 mt-2">
                   {details.genres.map((genre) => (
@@ -238,7 +238,7 @@ export default function GameDetails(): ReactElement {
             </div>
             <h1 className="font-bold text-2xl my-3">About</h1>
             <div className="text-justify">{parse(details.description)}</div>
-            <div className="my-6">
+            <div className="my-6 break-all">
               <p className="font-bold text-xl">Website</p>
               <a href={details.website} target="_blank" rel="noreferrer">
                 {details.website}
@@ -250,7 +250,7 @@ export default function GameDetails(): ReactElement {
                 {details.stores.map((item) => (
                   <a
                     href={item.url}
-                    className="py-2 px-6 mr-2 mt-2 bg-gray-900 rounded-lg cursor-pointer hover:bg-gray-800 transition duration-300"
+                    className="py-2 px-6 mr-2 mt-2 bg-gray-900 rounded-lg cursor-pointer hover:bg-gray-800 transition duration-500"
                     key={item.id}
                     target="_blank"
                     rel="noreferrer"
@@ -272,6 +272,7 @@ export default function GameDetails(): ReactElement {
                   <img
                     className="w-64 h-40 object-cover"
                     src={item.image}
+                    loading="lazy"
                     alt="game"
                   />
                 </a>

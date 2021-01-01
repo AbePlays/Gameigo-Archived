@@ -10,7 +10,7 @@ export default class Error extends Component<Props, State> {
 
   render() {
     return (
-      <div className="rounded overflow-hidden text-center">
+      <div className="rounded overflow-hidden text-center transition duration-500">
         <div className="bg-red-500 text-white flex justify-center py-6">
           <svg
             className="w-12"
@@ -34,13 +34,13 @@ export default class Error extends Component<Props, State> {
           </p>
           <div className="mt-6 text-white">
             <button
-              className="py-2 px-12 rounded-full bg-red-500 hover:bg-red-400 transition duration-300"
+              className="py-2 px-12 rounded-full bg-red-500 hover:bg-red-400 transition duration-500"
               onClick={() => this.props.errorHandler("NO")}
             >
               No
             </button>
             <button
-              className="py-2 px-12 rounded-full bg-green-500 ml-6 hover:bg-green-400 transition duration-300"
+              className="py-2 px-12 rounded-full bg-green-500 ml-6 hover:bg-green-400 transition duration-500"
               onClick={() => this.props.errorHandler("YES")}
             >
               Yes

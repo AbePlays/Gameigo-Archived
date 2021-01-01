@@ -28,7 +28,7 @@ export default function GameCard({ game }: Props): ReactElement {
         },
       }}
     >
-      <div className="shadow-lg rounded-xl cursor-pointer h-full overflow-hidden bg-white dark:bg-darkSecondary">
+      <div className="shadow-lg rounded-xl cursor-pointer h-full overflow-hidden bg-white dark:bg-darkSecondary text-black dark:text-white transition-colors duration-500">
         <div className="h-64">
           <img
             onLoad={() => {

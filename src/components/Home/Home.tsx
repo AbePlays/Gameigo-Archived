@@ -9,8 +9,21 @@ export default function Home(): ReactElement {
   const results: Game[] = [];
 
   const getData = async () => {
+    const day = new Date();
+    const [date, month, year] = day.toLocaleDateString("en-US").split("/");
+    const endDate = `${year}-${month.length === 1 ? 0 + month : month}-${
+      date.length ? 0 + date : date
+    }`;
+
+    day.setMonth(day.getMonth() - 12);
+    const [newDate, newMonth, newYear] = day
+      .toLocaleDateString("en-US")
+      .split("/");
+    const startDate = `${newYear}-${
+      newMonth.length === 1 ? 0 + newMonth : newMonth
+    }-${newDate.length === 1 ? 0 + newDate : newDate}`;
     const res = await fetch(
-      "https://api.rawg.io/api/games?dates=2020-01-01,2020-12-31&ordering=-added"
+      `https://api.rawg.io/api/games?dates=${startDate},${endDate}&ordering=-added`
     );
     return res.json();
   };

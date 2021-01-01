@@ -54,23 +54,23 @@ class Navbar extends Component<Props, State> {
 
   render() {
     return (
-      <div className="shadow dark:bg-darkSecondary dark:text-white relative z-50">
+      <div className="shadow dark:bg-darkSecondary dark:text-white bg-white text-black relative z-50 transition duration-500">
         <div className=" max-w-screen-xl mx-auto p-4">
-          <div className="flex justify-between items-center">
+          <div className="flex justify-between items-center text-black dark:text-white">
             <NavLink to="/" onClick={this.closeWindow}>
               <h1 className="tracking-widest">GAMEIGO</h1>
             </NavLink>
             <div className="sm:flex hidden">
               <NavLink
                 to="/search"
-                className="hover:text-gray-400 transition duration-300"
+                className="hover:text-gray-400 transition duration-500"
                 onClick={this.closeWindow}
               >
                 <p>Search</p>
               </NavLink>
               <NavLink
                 to="/about"
-                className="ml-8 hover:text-gray-400 transition duration-300"
+                className="ml-8 hover:text-gray-400 transition duration-500"
                 onClick={this.closeWindow}
               >
                 <p>About</p>
@@ -83,7 +83,7 @@ class Navbar extends Component<Props, State> {
                       <div className="py-2">
                         <NavLink
                           to="/favorites"
-                          className="hover:text-gray-400 transition duration-300"
+                          className="hover:text-gray-400 transition duration-500"
                           onClick={this.closeWindow}
                         >
                           <span>Favorites</span>
@@ -91,7 +91,7 @@ class Navbar extends Component<Props, State> {
                       </div>
                       <div className="py-2">
                         <span
-                          className="cursor-pointer hover:text-gray-400 transition duration-300"
+                          className="cursor-pointer hover:text-gray-400 transition duration-500"
                           onClick={signout}
                         >
                           Log Out
@@ -136,7 +136,7 @@ class Navbar extends Component<Props, State> {
               ) : (
                 <NavLink
                   to="/auth"
-                  className="ml-8 hover:text-gray-400 transition duration-300"
+                  className="ml-8 hover:text-gray-400 transition duration-500"
                 >
                   <p>Log in</p>
                 </NavLink>
@@ -191,6 +191,7 @@ class Navbar extends Component<Props, State> {
             >
               {this.state.isDropDownOpen ? (
                 <svg
+                  className="w-6"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
@@ -221,72 +222,81 @@ class Navbar extends Component<Props, State> {
               )}
             </div>
           </div>
-          {this.state.isDropDownOpen && (
-            <div className="mt-2 px-4 py-2">
+          <div
+            className={`px-4 transition-all duration-500  ${
+              this.state.isDropDownOpen
+                ? "max-h-screen opacity-100 py-2 mt-2"
+                : "max-h-0 opacity-0 invisible mt-0 py-0"
+            }`}
+          >
+            {this.props.userId && (
+              <div className="py-2 text-center">
+                <p className="text-black dark:text-white">
+                  Hi {this.props.name}
+                </p>
+              </div>
+            )}
+            <div className="divide-y text-black dark:text-white">
+              <div className="py-2" onClick={this.toggleDropDown}>
+                <NavLink
+                  to="/search"
+                  className="hover:text-gray-400 transition duration-500"
+                >
+                  Search
+                </NavLink>
+              </div>
               {this.props.userId && (
-                <div className="py-2 text-center">
-                  <p>Hi {this.props.name}</p>
+                <div className="py-2" onClick={this.toggleDropDown}>
+                  <NavLink
+                    to="/favorites"
+                    className="hover:text-gray-400 transition duration-500"
+                  >
+                    Favorites
+                  </NavLink>
                 </div>
               )}
-              <div className="divide-y">
-                <div className="py-2" onClick={this.toggleDropDown}>
-                  <NavLink
-                    to="/search"
-                    className="hover:text-gray-400 transition duration-300"
-                  >
-                    Search
-                  </NavLink>
-                </div>
-                {this.props.userId && (
-                  <div className="py-2" onClick={this.toggleDropDown}>
-                    <NavLink
-                      to="/favorites"
-                      className="hover:text-gray-400 transition duration-300"
-                    >
-                      Favorites
-                    </NavLink>
-                  </div>
-                )}
-                <div className="py-2" onClick={this.toggleDropDown}>
-                  <NavLink
-                    to="/about"
-                    className="hover:text-gray-400 transition duration-300"
-                  >
-                    About
-                  </NavLink>
-                </div>
-                <div className="py-2">
-                  {this.props.userId ? (
-                    <span
-                      className="cursor-pointer hover:text-gray-400 transition duration-300"
-                      onClick={signout}
-                    >
-                      Sign Out
-                    </span>
-                  ) : (
-                    <NavLink
-                      to="/auth"
-                      className="hover:text-gray-400 transition duration-300"
-                      onClick={this.toggleDropDown}
-                    >
-                      Log in
-                    </NavLink>
-                  )}
-                </div>
-
-                <div className="py-2">
+              <div className="py-2" onClick={this.toggleDropDown}>
+                <NavLink
+                  to="/about"
+                  className="hover:text-gray-400 transition duration-500"
+                >
+                  About
+                </NavLink>
+              </div>
+              <div className="py-2">
+                {this.props.userId ? (
                   <span
-                    className="cursor-pointer hover:text-gray-400 transition duration-300"
+                    className="cursor-pointer hover:text-gray-400 transition duration-500"
                     onClick={() => {
-                      this.props.toggleDarkMode();
+                      signout();
+                      this.toggleDropDown();
                     }}
                   >
-                    Toggle Dark Mode
+                    Sign Out
                   </span>
-                </div>
+                ) : (
+                  <NavLink
+                    to="/auth"
+                    className="hover:text-gray-400 transition duration-500"
+                    onClick={this.toggleDropDown}
+                  >
+                    Log in
+                  </NavLink>
+                )}
+              </div>
+
+              <div className="py-2">
+                <span
+                  className="cursor-pointer hover:text-gray-400 transition duration-500"
+                  onClick={() => {
+                    this.props.toggleDarkMode();
+                  }}
+                >
+                  Toggle Dark Mode
+                </span>
               </div>
             </div>
-          )}
+          </div>
         </div>
       </div>
     );

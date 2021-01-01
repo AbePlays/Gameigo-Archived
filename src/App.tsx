@@ -30,9 +30,7 @@ export default function App() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    console.log("[APP] UEF");
     firebase.auth().onAuthStateChanged(async (user) => {
-      console.log("[APP] onAuthStateChanged");
       setLoading(true);
       if (user) {
         const data = await getUserData(user.uid);

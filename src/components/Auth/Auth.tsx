@@ -59,10 +59,8 @@ export default class Auth extends Component<
   ) => {
     let user: any = {};
     if (this.state.isLogIn) {
-      console.log("[AUTH] LOG IN");
       user = await login(values.email!, values.password!);
     } else {
-      console.log("[AUTH] SIGN UP");
       user = await signup(values.email!, values.password!);
       await createUser(user, values.name!);
     }
@@ -88,7 +86,7 @@ export default class Auth extends Component<
 
   render() {
     return (
-      <div className="dark:bg-black dark:text-white bg-gray-50 min-h-screen py-6 px-4">
+      <div className="dark:bg-black dark:text-white bg-gray-50 min-h-screen py-6 px-4 transition duration-500">
         {this.state.error && (
           <div className="max-w-md sm:mt-12 mx-auto dark:bg-darkSecondary shadow">
             <Error errorHandler={this.errorHandler} />
@@ -181,7 +179,7 @@ export default class Auth extends Component<
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full h-10 dark:bg-green-400 dark:hover:bg-green-300 transition duration-300 dark:text-black text-white bg-green-500 hover:bg-green-400"
+                    className="w-full h-10 dark:bg-green-400 dark:hover:bg-green-300 transition duration-500 dark:text-black text-white bg-green-500 hover:bg-green-400"
                   >
                     {isSubmitting ? "Submitting..." : "Submit"}
                   </button>

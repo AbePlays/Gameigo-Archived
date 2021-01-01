@@ -19,6 +19,18 @@ export default class Search extends Component<Props, State> {
     results: [],
   };
 
+  componentDidMount() {
+    const savedData = localStorage.getItem("searchResults");
+    if (savedData) {
+      const res = JSON.parse(savedData);
+      this.setState(res);
+    }
+  }
+
+  componentWillUnmount() {
+    localStorage.setItem("searchResults", JSON.stringify(this.state));
+  }
+
   getData = async (search: string) => {
     this.setState({
       loading: true,
