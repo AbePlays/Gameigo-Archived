@@ -10,22 +10,29 @@ export default function Home(): ReactElement {
 
   const getData = async () => {
     const day = new Date();
-    const [date, month, year] = day.toLocaleDateString("en-US").split("/");
+    const [month, date, year] = day.toLocaleDateString("en-US").split("/");
+
     const endDate = `${year}-${month.length === 1 ? 0 + month : month}-${
-      date.length ? 0 + date : date
+      date.length === 1 ? 0 + date : date
     }`;
 
     day.setMonth(day.getMonth() - 12);
-    const [newDate, newMonth, newYear] = day
+    const [newMonth, newDate, newYear] = day
       .toLocaleDateString("en-US")
       .split("/");
+
     const startDate = `${newYear}-${
       newMonth.length === 1 ? 0 + newMonth : newMonth
     }-${newDate.length === 1 ? 0 + newDate : newDate}`;
-    const res = await fetch(
-      `https://api.rawg.io/api/games?dates=${startDate},${endDate}&ordering=-added`
-    );
-    return res.json();
+
+    try {
+      const res = await fetch(
+        `https://api.rawg.io/api/games?dates=${startDate},${endDate}&ordering=-added`
+      );
+      return res.json();
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   const { isLoading, error, data } = useQuery("games", getData);
