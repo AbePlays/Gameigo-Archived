@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { RouteComponentProps } from "react-router";
 
 import { Game, GameCard } from "../Home";
 import Spinner from "../Spinner";
@@ -12,7 +13,7 @@ interface State {
   results: Game[];
 }
 
-export default class Search extends Component<Props, State> {
+class Search extends Component<Props & RouteComponentProps, State> {
   state = {
     loading: false,
     query: "",
@@ -20,10 +21,12 @@ export default class Search extends Component<Props, State> {
   };
 
   componentDidMount() {
-    const savedData = localStorage.getItem("searchResults");
-    if (savedData) {
-      const res = JSON.parse(savedData);
-      this.setState(res);
+    if (this.props.history.action === "POP") {
+      const savedData = localStorage.getItem("searchResults");
+      if (savedData) {
+        const res = JSON.parse(savedData);
+        this.setState(res);
+      }
     }
   }
 
@@ -71,7 +74,7 @@ export default class Search extends Component<Props, State> {
             type="text"
             name="search"
             placeholder="Search Games"
-            className="pl-10 h-10 w-full rounded-lg dark:bg-darkSecondary shadow outline-none"
+            className="pl-10 h-10 w-full rounded-lg dark:bg-darkSecondary shadow outline-none transition-colors duration-300"
             value={this.state.query}
             onChange={(e) => {
               this.setState({
@@ -98,3 +101,5 @@ export default class Search extends Component<Props, State> {
     );
   }
 }
+
+export default Search;

@@ -61,7 +61,7 @@ export default function App() {
             <Route path="/" component={Home} exact />
             <Route
               path="/search"
-              render={() => (
+              render={(props) => (
                 <Suspense
                   fallback={
                     <Wrapper>
@@ -69,7 +69,7 @@ export default function App() {
                     </Wrapper>
                   }
                 >
-                  <Search />
+                  <Search {...props} />
                 </Suspense>
               )}
             />
