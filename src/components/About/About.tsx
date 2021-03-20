@@ -6,9 +6,9 @@ export default function About(): ReactElement {
   return (
     <Wrapper>
       <div className="my-4 py-4 text-center">
-        <p className="uppercase tracking-widest font-semibold text-sm">
+        <span className="uppercase tracking-widest font-semibold text-sm">
           Small and Crafty
-        </p>
+        </span>
         <div className="w-7 h-2 my-4 dark:bg-white bg-darkSecondary mx-auto transform -rotate-12 -skew-x-12"></div>
         <p className="mt-4">
           Gameigo is a video game discovery platform where you can keep all your
@@ -18,9 +18,9 @@ export default function About(): ReactElement {
         </p>
       </div>
       <div className="my-4 py-4 text-center">
-        <p className="uppercase tracking-widest font-semibold text-sm">
+        <span className="uppercase tracking-widest font-semibold text-sm">
           Creator
-        </p>
+        </span>
         <div className="w-7 h-2 my-4 dark:bg-white bg-darkSecondary mx-auto transform -rotate-12 -skew-x-12"></div>
         <p className="mt-4">
           Hi there, I'm Abhishek - aka Abe 👋 I am a self learner trying to get
@@ -30,35 +30,44 @@ export default function About(): ReactElement {
         </p>
       </div>
       <div className="mt-4 py-4 text-center">
-        <p className="uppercase tracking-widest font-semibold text-sm">
+        <span className="uppercase tracking-widest font-semibold text-sm">
           Contact
-        </p>
+        </span>
         <div className="w-7 h-2 my-4 dark:bg-white bg-darkSecondary mx-auto transform -rotate-12 -skew-x-12"></div>
-        <div className="mt-4 flex flex-wrap justify-center">
-          <a
-            href="mailto:abhi.rawat456@gmail.com"
-            rel="noreferrer"
-            className="py-2 px-4 mb-2 border rounded bg-darkSecondary dark:bg-white text-white dark:text-black hover:bg-white dark:hover:bg-darkSecondary hover:text-black dark:hover:text-white transition duration-500"
-          >
-            Mail
-          </a>
-          <a
-            href="https://www.linkedin.com/in/abe10/"
-            rel="noreferrer"
-            target="_blank"
-            className="py-2 px-4 mb-2 border rounded ml-2 bg-darkSecondary dark:bg-white text-white dark:text-black hover:bg-white dark:hover:bg-darkSecondary hover:text-black dark:hover:text-white transition duration-500"
-          >
-            LinkedIn
-          </a>
-          <a
-            href="https://github.com/AbePlays"
-            rel="noreferrer"
-            target="_blank"
-            className="py-2 px-4 mb-2 border rounded ml-2 bg-darkSecondary dark:bg-white text-white dark:text-black hover:bg-white dark:hover:bg-darkSecondary hover:text-black dark:hover:text-white transition duration-500"
-          >
-            Github
-          </a>
-        </div>
+        <ul className="mt-7 flex flex-wrap justify-center space-x-2">
+          <li>
+            <a
+              href="https://github.com/AbePlays"
+              rel="noreferrer"
+              target="_blank"
+              aria-label="Github"
+              className="py-2 px-4 mb-2 border rounded bg-darkSecondary dark:bg-white text-white dark:text-black hover:bg-white dark:hover:bg-darkSecondary hover:text-black dark:hover:text-white transition duration-500"
+            >
+              Github
+            </a>
+          </li>
+          <li>
+            <a
+              href="mailto:abhi.rawat456@gmail.com"
+              rel="noreferrer"
+              aria-label="Email"
+              className="py-2 px-4 mb-2 border rounded bg-darkSecondary dark:bg-white text-white dark:text-black hover:bg-white dark:hover:bg-darkSecondary hover:text-black dark:hover:text-white transition duration-500"
+            >
+              Mail
+            </a>
+          </li>
+          <li>
+            <a
+              href="https://www.linkedin.com/in/abe10/"
+              rel="noreferrer"
+              target="_blank"
+              aria-label="LinkedIn"
+              className="py-2 px-4 mb-2 border rounded bg-darkSecondary dark:bg-white text-white dark:text-black hover:bg-white dark:hover:bg-darkSecondary hover:text-black dark:hover:text-white transition duration-500"
+            >
+              LinkedIn
+            </a>
+          </li>
+        </ul>
       </div>
     </Wrapper>
   );
