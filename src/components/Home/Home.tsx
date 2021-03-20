@@ -55,15 +55,17 @@ export default function Home(): ReactElement {
   return (
     <Wrapper>
       <h1 className="font-bold text-4xl sm:text-6xl">New and trending</h1>
-      <p className="font-normal my-3">
+      <span className="font-normal my-3 block">
         Based on player counts and release date
-      </p>
-      {isLoading && <Spinner />}
+      </span>
+      {isLoading && <Spinner data-testid="spinner" />}
       {error && (
-        <p className="text-white text-center py-8">Error while fetching data</p>
+        <span className="text-white text-center py-8 block">
+          Error while fetching data
+        </span>
       )}
       {data && (
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
           {results.map((game: Game) => (
             <GameCard key={game.id} game={game} />
           ))}

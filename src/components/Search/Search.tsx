@@ -37,7 +37,6 @@ class Search extends Component<Props & RouteComponentProps, State> {
   getData = async (search: string) => {
     this.setState({
       loading: true,
-      query: "",
     });
     const res = await fetch(`https://api.rawg.io/api/games?search=${search}`);
     const data = await res.json();
@@ -55,7 +54,7 @@ class Search extends Component<Props & RouteComponentProps, State> {
   render() {
     return (
       <Wrapper>
-        <div className="relative">
+        <div className="relative max-w-screen-sm mx-auto">
           <svg
             className="w-4 absolute top-3 left-3"
             xmlns="http://www.w3.org/2000/svg"
