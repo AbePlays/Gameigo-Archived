@@ -62,6 +62,7 @@ class Navbar extends Component<Props, State> {
             </NavLink>
             <div className="sm:flex hidden">
               <NavLink
+                data-testid="searchLink"
                 to="/search"
                 className="hover:text-gray-400 transition duration-500"
                 onClick={this.closeWindow}
@@ -69,6 +70,7 @@ class Navbar extends Component<Props, State> {
                 <p>Search</p>
               </NavLink>
               <NavLink
+                data-testid="aboutLink"
                 to="/about"
                 className="ml-8 hover:text-gray-400 transition duration-500"
                 onClick={this.closeWindow}
@@ -158,6 +160,7 @@ class Navbar extends Component<Props, State> {
                   />
                 </svg>
                 <div
+                  data-testid="darkModeToggle"
                   className="ml-2 w-10 h-5 dark:bg-white bg-darkSecondary rounded-full relative cursor-pointer"
                   onClick={() => {
                     this.props.toggleDarkMode();
