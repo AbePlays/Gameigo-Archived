@@ -79,7 +79,7 @@ export default function GameDetails(): ReactElement {
   }, []);
 
   const getData = async () => {
-    const res = await fetch(`https://api.rawg.io/api/games/${id}`);
+    const res = await fetch(`https://api.rawg.io/api/games/${id}?key=${process.env.REACT_APP_RAWG_API_KEY}`);
     return res.json();
   };
 

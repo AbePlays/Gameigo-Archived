@@ -27,7 +27,7 @@ export default function Home(): ReactElement {
 
     try {
       const res = await fetch(
-        `https://api.rawg.io/api/games?dates=${startDate},${endDate}&ordering=-added`
+        `https://api.rawg.io/api/games?key=${process.env.REACT_APP_RAWG_API_KEY}&dates=${startDate},${endDate}&ordering=-added`
       );
       return res.json();
     } catch (e) {

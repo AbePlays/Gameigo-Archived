@@ -38,7 +38,7 @@ class Search extends Component<Props & RouteComponentProps, State> {
     this.setState({
       loading: true,
     });
-    const res = await fetch(`https://api.rawg.io/api/games?search=${search}`);
+    const res = await fetch(`https://api.rawg.io/api/games?key=${process.env.REACT_APP_RAWG_API_KEY}&search=${search}`);
     const data = await res.json();
     this.setState({
       loading: false,
